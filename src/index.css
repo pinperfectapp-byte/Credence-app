@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .font-mono-numeric {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Kinetic Logo & Splash Animations */
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    filter: drop-shadow(0 10px 25px rgba(16, 185, 129, 0.25));
+  }
+  50% {
+    transform: translateY(-8px) scale(1.02);
+    filter: drop-shadow(0 20px 35px rgba(16, 185, 129, 0.45));
+  }
+}
+
+@keyframes haloPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes textReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tickGleam {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #fbbf24);
+  }
+}
+
+@keyframes arrowSurge {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -3px);
+  }
+}
+
+.animate-logo-float {
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+.animate-halo-pulse {
+  animation: haloPulse 3s ease-in-out infinite;
+}
+
+.animate-text-reveal {
+  animation: textReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-tick-gleam {
+  animation: tickGleam 2s ease-in-out infinite;
+}
+
+.animate-arrow-surge {
+  animation: arrowSurge 2.5s ease-in-out infinite;
+}
+
+/* Privacy Mode Masking */
+.privacy-masked {
+  filter: blur(8px);
+  user-select: none;
+  transition: filter 0.15s ease-in-out;
+}
+
+.privacy-masked:hover {
+  filter: blur(0px);
+}
+
+/* Professional Print Stylesheet */
+@media print {
+  @page {
+    margin: 1cm;
+    size: letter portrait;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 10pt !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Unblur sensitive numbers during print if user prints */
+  .privacy-masked {
+    filter: none !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
