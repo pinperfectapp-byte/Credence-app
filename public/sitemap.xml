@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- Homepage -->
+  <url>
+    <loc>https://chidoniq.com.ng/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://chidoniq.com.ng/chidoniq-logo.svg</image:loc>
+      <image:title>CHIDONIQ Official Logo</image:title>
+      <image:caption>CHIDONIQ - Free Credit Score &amp; Budget Tracker Command Center</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://chidoniq.com.ng/og-image.png</image:loc>
+      <image:title>CHIDONIQ Financial Command Dashboard</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Main Financial Command Center / Dashboard -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=dashboard</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Budget Tracker ($1,250 Left & Category Envelopes) -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=budget</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- BillGuard (Due Date & Upcoming Obligation Sentinel) -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=bills</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- DebtDestroyer (Snowball & Avalanche Payoff Calculator) -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=debt_destroyer</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- ScoreBoost Lab (Interactive Credit Simulation Lab) -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=score_boost</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- SubScrub (Subscription Killer & Waste Canceller) -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=sub_scrub</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- MoneyStreak (30-Day Financial Habit Challenge) -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=money_streak</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 17-in-1 Sovereign Tracker Hub -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=tracker</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Credit Score Checker & Card Recommender -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=score_checker</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- APR Slash & Card Comparison Calculator -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=compare</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Debt Payoff Calculator -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=debt_payoff</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- AZEO Statement Date Optimizer -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=statement_optimizer</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- FCRA Credit Bureau Dispute Hub -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=dispute_hub</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Emergency Fund Vault -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=emergency_vault</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Net Worth Ledger -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=net_worth</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Hard Inquiry Shield -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=inquiries_tracker</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Savings Goals Multi-Vault -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=savings_goals</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 30-Day FCRA Dispute Timer Clock -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=dispute_tracker</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- APR Daily Interest Bleed Monitor -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=interest_bleed</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 30-Day Cash Flow Forecast -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=cash_flow</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Reward Points & Cashback Vault -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=rewards_tracker</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- No-Spend Days Calendar Tracker -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=no_spend_tracker</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Revolving Credit Utilization Watchdog -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=utilization_tracker</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Sinking Funds Allocator -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=sinking_funds</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Credit Builder for Beginners -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=credit_builder</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Loan Comparison Engine -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=loan_comparison</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Credit Myths & Realities Quiz -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=credit_myths</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Grocery Card Reward Maximizer -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=grocery_saver</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- What-If Credit Score Simulator -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=simulator</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Personalized Action Roadmap -->
+  <url>
+    <loc>https://chidoniq.com.ng/?tab=roadmap</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+</urlset>

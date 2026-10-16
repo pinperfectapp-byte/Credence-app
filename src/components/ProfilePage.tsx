@@ -13,19 +13,27 @@ import {
   AlertCircle,
   DollarSign,
   Calendar,
-  Building2
+  Building2,
+  Database,
+  RefreshCw,
+  LogOut,
+  KeyRound,
+  CheckCircle2
 } from 'lucide-react';
+import { useSupabaseAuth } from '../context/SupabaseAuthContext';
 
 interface ProfilePageProps {
   profile: CreditProfile;
   onUpdateProfile: (updated: CreditProfile) => void;
   onResetToBlank: () => void;
+  onOpenAuthModal?: () => void;
 }
 
 export const ProfilePage: React.FC<ProfilePageProps> = ({
   profile,
   onUpdateProfile,
   onResetToBlank,
+  onOpenAuthModal,
 }) => {
   // Personal Details
   const [name, setName] = useState(profile.name);
@@ -56,6 +64,41 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
 
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  // Supabase Auth & Cloud Sync
+  const { 
+    user, 
+    lastSyncTime, 
+    isSyncing, 
+    syncToCloud, 
+    restoreFromCloud, 
+    isConfigured 
+  } = useSupabaseAuth();
+  const [cloudMsg, setCloudMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleProfileSync = async () => {
+    const res = await syncToCloud(profile);
+    setCloudMsg({ type: res.success ? 'success' : 'error', text: res.message });
+    setTimeout(() => setCloudMsg(null), 4500);
+  };
+
+  const handleProfileRestore = async () => {
+    const res = await restoreFromCloud();
+    if (res.profile) {
+      onUpdateProfile(res.profile);
+      setName(res.profile.name);
+      setEmail(res.profile.email);
+      setAddress(res.profile.address);
+      setCityStateZip(res.profile.cityStateZip);
+      setSsnLast4(res.profile.ssnLast4);
+      setBaseScore(res.profile.baseScore);
+      setCreditAgeYears(res.profile.creditAgeYears);
+      setTotalInquiries(res.profile.totalInquiries);
+      setCards(res.profile.cards);
+    }
+    setCloudMsg({ type: res.profile ? 'success' : 'error', text: res.message });
+    setTimeout(() => setCloudMsg(null), 4500);
+  };
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,7 +167,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(profile, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `credence_profile_${Date.now()}.json`);
+    downloadAnchor.setAttribute('download', `chidoniq_profile_${Date.now()}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -158,6 +201,94 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Encrypted Vault Synchronization Banner */}
+      <div className="bg-neutral-50 dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 shadow-xs space-y-3 transition-colors">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-black dark:bg-white text-white dark:text-black flex items-center justify-center shadow-xs">
+              <Database className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-bold text-black dark:text-white">
+                  Encrypted Vault Synchronization
+                </h3>
+                {user ? (
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800 px-2 py-0.5 rounded-full font-semibold">
+                    Vault Connected
+                  </span>
+                ) : (
+                  <span className="text-[10px] bg-neutral-200 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700 px-2 py-0.5 rounded-full font-semibold">
+                    Local Device Storage
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
+                {user 
+                  ? `Signed in as ${user.email} • Encrypted backup active` 
+                  : 'Sync your cards, budget envelopes, and debt goals with 256-bit encrypted authentication.'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <button
+                  type="button"
+                  onClick={handleProfileSync}
+                  disabled={isSyncing}
+                  className="px-3 py-1.5 text-xs font-semibold text-white bg-black dark:bg-white dark:text-black hover:opacity-90 rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>{isSyncing ? 'Syncing...' : 'Sync to Vault'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleProfileRestore}
+                  disabled={isSyncing}
+                  className="px-3 py-1.5 text-xs font-semibold text-black dark:text-white bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  <Database className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
+                  <span>Restore</span>
+                </button>
+                {onOpenAuthModal && (
+                  <button
+                    type="button"
+                    onClick={onOpenAuthModal}
+                    className="px-2.5 py-1.5 text-xs font-medium text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl transition-colors cursor-pointer"
+                  >
+                    Manage
+                  </button>
+                )}
+              </>
+            ) : (
+              onOpenAuthModal && (
+                <button
+                  type="button"
+                  onClick={onOpenAuthModal}
+                  className="px-3.5 py-2 text-xs font-bold text-white bg-black dark:bg-white dark:text-black hover:opacity-90 rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <KeyRound className="w-3.5 h-3.5" />
+                  <span>Sign In / Create Account</span>
+                </button>
+              )
+            )}
+          </div>
+        </div>
+
+        {cloudMsg && (
+          <div className={`p-2.5 rounded-lg text-xs flex items-center gap-2 ${
+            cloudMsg.type === 'success' 
+              ? 'bg-emerald-50 border border-emerald-300 text-emerald-800 dark:bg-emerald-950/60 dark:border-emerald-500/40 dark:text-emerald-200' 
+              : 'bg-rose-50 border border-rose-300 text-rose-800 dark:bg-rose-950/60 dark:border-rose-500/40 dark:text-rose-200'
+          }`}>
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <span>{cloudMsg.text}</span>
+          </div>
+        )}
       </div>
 
       {/* 2. Main Form */}
@@ -252,7 +383,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div>
               <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                FICO® Score (300–850)
+                Credit Score (300–850)
               </label>
               <input
                 type="number"
@@ -361,7 +492,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Chase / Discover / Amex"
+                    placeholder="e.g. National Bank / Premier Card"
                     value={newCardBank}
                     onChange={(e) => setNewCardBank(e.target.value)}
                     className="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md px-2.5 py-1.5 text-slate-900 dark:text-white"

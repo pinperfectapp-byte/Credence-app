@@ -233,7 +233,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">FICO® Score (300–850)</label>
+                  <label className="font-semibold text-slate-700 block mb-1">Credit Score (300–850)</label>
                   <input
                     type="number"
                     min="300"
@@ -392,7 +392,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                   <label className="text-[11px] font-semibold text-slate-700 block mb-1">Issuing Bank</label>
                   <input
                     type="text"
-                    placeholder="e.g. Chase / Amex / Discover"
+                    placeholder="e.g. National Bank / Premier Card"
                     value={newCardBank}
                     onChange={(e) => setNewCardBank(e.target.value)}
                     className="w-full bg-white border border-slate-300 rounded-md px-2.5 py-1.5 text-xs text-slate-900"

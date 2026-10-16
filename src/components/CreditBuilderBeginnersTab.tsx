@@ -59,13 +59,13 @@ export const CreditBuilderBeginnersTab: React.FC = () => {
     <div className="w-full max-w-full overflow-x-hidden space-y-6 font-sans select-none pb-8">
       
       {/* Title & Header Banner */}
-      <div className="bg-slate-900 text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-md space-y-3">
+      <div className="bg-gradient-to-r from-[#0f244c] via-[#143166] to-[#0f244c] dark:from-[#0C182F] dark:via-[#102244] dark:to-[#0C182F] text-white rounded-[20px] p-5 sm:p-6 border border-blue-500/30 dark:border-[rgba(56,120,210,0.3)] shadow-lg shadow-black/20 space-y-3">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-emerald-500 text-slate-950 font-black">
+          <div className="p-2 rounded-xl bg-[#2563EB] text-white font-black">
             <BookOpen className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div>
-            <span className="text-[10px] font-mono-numeric font-black uppercase tracking-wider text-emerald-400 block">
+            <span className="text-[10px] font-mono-numeric font-black uppercase tracking-wider text-[#38BDF8] block">
               Feature 3 · Ages 18–21 Starter Guide
             </span>
             <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
@@ -74,44 +74,44 @@ export const CreditBuilderBeginnersTab: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-xs text-slate-300 font-semibold leading-relaxed">
-          Starting with <strong className="text-white">zero credit history or an empty file</strong>? Follow this step-by-step master roadmap to reach a <strong className="text-emerald-400">720+ FICO® score</strong> in 6 months without debt.
+        <p className="text-xs text-blue-200/90 font-semibold leading-relaxed">
+          Starting with <strong className="text-white">zero credit history or an empty file</strong>? Follow this step-by-step master roadmap to reach a <strong className="text-emerald-400">720+ Credit Score</strong> in 6 months without debt.
         </p>
       </div>
 
       {/* Beginner Fast Track: The 4 Proven Pillars */}
       <div className="space-y-3">
-        <span className="text-xs font-black uppercase text-slate-500 tracking-wider font-mono-numeric block">
+        <span className="text-xs font-black uppercase text-slate-500 dark:text-[#8FA0C0] tracking-wider font-mono-numeric block">
           The 4 Fast Tracks for Beginners
         </span>
 
         {/* Track 1: Secured Credit Cards */}
-        <div className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-3xl p-5 space-y-3 shadow-xs">
+        <div className="bg-white dark:bg-[#0C182F] border border-slate-100 dark:border-[rgba(56,120,210,0.22)] rounded-[20px] p-5 space-y-3 shadow-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs">
+              <div className="w-7 h-7 rounded-xl bg-blue-50 dark:bg-[#102244] text-[#2563EB] dark:text-[#38BDF8] flex items-center justify-center font-bold text-xs border border-transparent dark:border-[rgba(56,120,210,0.25)]">
                 1
               </div>
               <h3 className="text-sm font-black text-slate-900 dark:text-white">
                 Secured Cards (100% Deposit Return)
               </h3>
             </div>
-            <span className="text-[10px] font-mono-numeric font-bold px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
+            <span className="text-[10px] font-mono-numeric font-bold px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">
               Guaranteed Approval
             </span>
           </div>
 
-          <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+          <p className="text-xs text-slate-600 dark:text-[#8FA0C0] font-medium">
             You place a refundable deposit ($200) that becomes your credit limit. Spend $10/mo on groceries and pay it off immediately. The bank reports to all 3 credit bureaus monthly.
           </p>
 
           <div className="grid grid-cols-2 gap-2 text-xs font-mono-numeric pt-1">
-            <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700">
-              <span className="font-bold text-slate-900 dark:text-white block">Discover it® Secured</span>
+            <div className="p-3 bg-slate-50 dark:bg-[#081326] rounded-2xl border border-slate-200 dark:border-[rgba(56,120,210,0.2)]">
+              <span className="font-bold text-slate-900 dark:text-white block">Secured 2% Cashback Card</span>
               <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block mt-0.5">2% Cash Back · Deposit refunded in 7 mos</span>
             </div>
             <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700">
-              <span className="font-bold text-slate-900 dark:text-white block">Capital One Platinum</span>
+              <span className="font-bold text-slate-900 dark:text-white block">Platinum Secured Builder Card</span>
               <span className="text-[10px] text-slate-500 block mt-0.5">$49 deposit for $200 line · Auto credit line increases</span>
             </div>
           </div>
@@ -226,11 +226,11 @@ export const CreditBuilderBeginnersTab: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-2 text-xs font-mono-numeric pt-1">
             <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700">
-              <span className="font-bold text-slate-900 dark:text-white block">Discover it® Student</span>
-              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block mt-0.5">5% Rotating · $20 Good Grade reward</span>
+              <span className="font-bold text-slate-900 dark:text-white block">Student 5% Cashback Card</span>
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block mt-0.5">5% Rotating · Good Grade incentive</span>
             </div>
             <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700">
-              <span className="font-bold text-slate-900 dark:text-white block">SavorOne Student</span>
+              <span className="font-bold text-slate-900 dark:text-white block">Student Dining &amp; Grocery Card</span>
               <span className="text-[10px] text-slate-500 block mt-0.5">3% Dining &amp; Grocery · $0 Annual fee</span>
             </div>
           </div>
@@ -241,7 +241,7 @@ export const CreditBuilderBeginnersTab: React.FC = () => {
       <div className="bg-slate-900 text-white rounded-3xl p-5 space-y-4 border border-slate-800">
         <div className="flex items-center justify-between">
           <span className="text-xs font-black uppercase text-emerald-400 font-mono-numeric">
-            The 6-Month 720 FICO Roadmap
+            The 6-Month 720 Credit Score Roadmap
           </span>
           <span className="text-xs font-bold text-slate-400 font-mono-numeric">6 Months to Prime</span>
         </div>
@@ -253,7 +253,7 @@ export const CreditBuilderBeginnersTab: React.FC = () => {
             </span>
             <div>
               <strong className="text-white block">Open 1 Secured Card + 1 Builder Account</strong>
-              <span className="text-slate-400 text-[11px]">First official FICO® score is generated (~620 to 640).</span>
+              <span className="text-slate-400 text-[11px]">First official credit score is generated (~620 to 640).</span>
             </div>
           </div>
 

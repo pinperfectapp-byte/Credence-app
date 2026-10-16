@@ -1,0 +1,35 @@
+# Robots.txt for CHIDONIQ (https://chidoniq.com.ng)
+# Optimized for Google Search Console, Googlebot, Bingbot & Social Crawlers
+
+User-agent: Googlebot
+Allow: /
+Allow: /*?tab=*
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /chidoniq-logo.svg
+Allow: /og-image.png
+
+User-agent: Bingbot
+Allow: /
+Allow: /*?tab=*
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: *
+Allow: /
+Allow: /*?tab=*
+
+# Host & Canonical Sitemap
+Host: https://chidoniq.com.ng
+Sitemap: https://chidoniq.com.ng/sitemap.xml

@@ -1,0 +1,38 @@
+{
+  "id": "/",
+  "name": "CHIDONIQ – Sovereign Credit Score & Financial Utility",
+  "short_name": "CHIDONIQ",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0A1931",
+  "background_color": "#0A1931",
+  "description": "100% private in-browser financial planning utility. Track credit score factors, budget envelopes, debt payoff, and grocery cashback with zero SSN required.",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/chidoniq-logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Credit Score",
+      "url": "/?tab=dashboard",
+      "description": "View live credit factors and score gauge"
+    },
+    {
+      "name": "Budget Tracker",
+      "url": "/?tab=budget",
+      "description": "Track daily spending envelopes and money remaining"
+    },
+    {
+      "name": "AZEO Optimizer",
+      "url": "/?tab=statement_optimizer",
+      "description": "All Zero Except One statement date paydown strategy"
+    }
+  ]
+}

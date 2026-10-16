@@ -1,6 +1,8 @@
 {
-  "name": "Credence",
-  "description": "Simple, powerful credit score builder and bureau dispute toolkit designed to solve credit challenges and elevate financial freedom for Americans.",
+  "name": "CHIDONIQ",
+  "description": "CHIDONIQ - Track your 742 credit score, $1,250 money left, bills, debt payoff, subscriptions. The all-in-one finance app Americans trust.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

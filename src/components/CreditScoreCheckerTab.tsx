@@ -31,8 +31,8 @@ const CARDS_DATABASE: MatchedCard[] = [
   // Exceptional (800+)
   {
     id: 'csr',
-    name: 'Chase Sapphire Reserve®',
-    issuer: 'Chase',
+    name: 'Sapphire Reserve Elite Card',
+    issuer: 'Premier Bank',
     minScore: 750,
     maxScore: 850,
     tier: 'Exceptional',
@@ -41,12 +41,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '22.49% - 29.49%',
     category: 'travel',
     introBonus: '$900 in Travel Value',
-    applyLink: 'https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve',
+    applyLink: '#',
   },
   {
     id: 'amex_plat',
-    name: 'The Platinum Card® from American Express',
-    issuer: 'American Express',
+    name: 'Platinum Travel & Dining Card',
+    issuer: 'Premier Issuer',
     minScore: 740,
     maxScore: 850,
     tier: 'Exceptional',
@@ -55,14 +55,14 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: 'See Pay Over Time APR',
     category: 'travel',
     introBonus: '80,000 Membership Rewards Pts',
-    applyLink: 'https://www.americanexpress.com/us/credit-cards/card/platinum/',
+    applyLink: '#',
   },
 
   // Very Good (740-799)
   {
     id: 'csp',
-    name: 'Chase Sapphire Preferred®',
-    issuer: 'Chase',
+    name: 'Sapphire Preferred Travel Card',
+    issuer: 'Premier Bank',
     minScore: 700,
     maxScore: 850,
     tier: 'Very Good',
@@ -71,12 +71,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '21.49% - 28.49%',
     category: 'travel',
     introBonus: '$750 in Travel Value',
-    applyLink: 'https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred',
+    applyLink: '#',
   },
   {
     id: 'amex_bcp',
-    name: 'Blue Cash Preferred® Card',
-    issuer: 'American Express',
+    name: 'Preferred 6% Supermarket Card',
+    issuer: 'Premier Issuer',
     minScore: 690,
     maxScore: 850,
     tier: 'Very Good',
@@ -85,12 +85,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '19.24% - 29.99%',
     category: 'cashback',
     introBonus: '$250 Statement Credit',
-    applyLink: 'https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/',
+    applyLink: '#',
   },
   {
     id: 'venture_x',
-    name: 'Capital One Venture X',
-    issuer: 'Capital One',
+    name: 'Venture Travel Rewards Card',
+    issuer: 'National Issuer',
     minScore: 740,
     maxScore: 850,
     tier: 'Very Good',
@@ -99,14 +99,14 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '19.99% - 29.99%',
     category: 'travel',
     introBonus: '75,000 Bonus Miles',
-    applyLink: 'https://www.capitalone.com/credit-cards/venture-x/',
+    applyLink: '#',
   },
 
   // Good (670-739)
   {
     id: 'citi_double',
-    name: 'Citi Double Cash® Card',
-    issuer: 'Citi',
+    name: 'Double Cash Back 2% Card',
+    issuer: 'National Issuer',
     minScore: 670,
     maxScore: 850,
     tier: 'Good',
@@ -115,12 +115,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '19.24% - 29.24%',
     category: 'no_fee',
     introBonus: '$200 Cash Bonus',
-    applyLink: 'https://www.citi.com/credit-cards/citi-double-cash-credit-card',
+    applyLink: '#',
   },
   {
     id: 'cfu',
-    name: 'Chase Freedom Unlimited®',
-    issuer: 'Chase',
+    name: 'Unlimited Freedom 1.5% Card',
+    issuer: 'Premier Bank',
     minScore: 670,
     maxScore: 850,
     tier: 'Good',
@@ -129,26 +129,26 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '20.49% - 29.24%',
     category: 'cashback',
     introBonus: '$200 Cash Bonus',
-    applyLink: 'https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited',
+    applyLink: '#',
   },
   {
     id: 'apple_card',
-    name: 'Apple Card',
-    issuer: 'Goldman Sachs',
+    name: 'Digital Titanium Cashback Card',
+    issuer: 'Digital Bank',
     minScore: 650,
     maxScore: 850,
     tier: 'Good',
     annualFee: 0,
-    cashbackOrPerk: '3% Apple · 2% with Apple Pay · Zero Late Fees',
+    cashbackOrPerk: '3% Select Stores · 2% Digital Wallet · Zero Late Fees',
     regularApr: '19.24% - 29.49%',
     category: 'no_fee',
     introBonus: 'Daily Cash Paid Every 24 Hours',
-    applyLink: 'https://www.apple.com/apple-card/',
+    applyLink: '#',
   },
   {
     id: 'citi_custom',
-    name: 'Citi Custom Cash® Card',
-    issuer: 'Citi',
+    name: 'Custom Top Category 5% Card',
+    issuer: 'National Issuer',
     minScore: 670,
     maxScore: 850,
     tier: 'Good',
@@ -157,14 +157,14 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '19.24% - 29.24%',
     category: 'cashback',
     introBonus: '$200 Cash Bonus',
-    applyLink: 'https://www.citi.com/credit-cards/citi-custom-cash-credit-card',
+    applyLink: '#',
   },
 
   // Fair (580-669)
   {
     id: 'capone_quicksilverone',
-    name: 'Capital One QuicksilverOne',
-    issuer: 'Capital One',
+    name: 'Everyday 1.5% Builder Card',
+    issuer: 'National Issuer',
     minScore: 580,
     maxScore: 669,
     tier: 'Fair',
@@ -173,12 +173,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '29.99%',
     category: 'cashback',
     introBonus: 'Automatic Credit Line Review after 6 mos',
-    applyLink: 'https://www.capitalone.com/credit-cards/quicksilverone/',
+    applyLink: '#',
   },
   {
     id: 'petal_2',
-    name: 'Petal® 2 "Cash Back, No Fees" Visa®',
-    issuer: 'Petal / WebBank',
+    name: 'Modern Cash Back Builder Card',
+    issuer: 'Direct Bank',
     minScore: 580,
     maxScore: 680,
     tier: 'Fair',
@@ -187,12 +187,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '18.24% - 32.24%',
     category: 'no_fee',
     introBonus: 'Cash Flow Underwriting (No SSN credit history)',
-    applyLink: 'https://www.petalcard.com/',
+    applyLink: '#',
   },
   {
     id: 'mission_lane',
-    name: 'Mission Lane Visa® Credit Card',
-    issuer: 'Mission Lane',
+    name: 'Clear Terms Credit Builder Card',
+    issuer: 'Community Issuer',
     minScore: 570,
     maxScore: 660,
     tier: 'Fair',
@@ -201,14 +201,14 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '26.99% - 29.99%',
     category: 'builder',
     introBonus: 'Higher Line Opportunities',
-    applyLink: 'https://www.missionlane.com/',
+    applyLink: '#',
   },
 
   // Poor / Rebuilding (<580)
   {
     id: 'discover_secured',
-    name: 'Discover it® Secured Credit Card',
-    issuer: 'Discover',
+    name: 'Secured 2% Cashback Card',
+    issuer: 'Direct Issuer',
     minScore: 300,
     maxScore: 620,
     tier: 'Poor',
@@ -217,12 +217,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '28.24%',
     category: 'builder',
     introBonus: 'Cashback Match (Doubles all 1st year cash)',
-    applyLink: 'https://www.discover.com/credit-cards/secured/',
+    applyLink: '#',
   },
   {
     id: 'capone_plat_secured',
-    name: 'Capital One Platinum Secured',
-    issuer: 'Capital One',
+    name: 'Zero-Fee Secured Builder Card',
+    issuer: 'National Issuer',
     minScore: 300,
     maxScore: 600,
     tier: 'Poor',
@@ -231,12 +231,12 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '29.99%',
     category: 'builder',
     introBonus: 'No Annual Fee · Automatic Line Increase',
-    applyLink: 'https://www.capitalone.com/credit-cards/platinum-secured/',
+    applyLink: '#',
   },
   {
     id: 'opensky',
-    name: 'OpenSky® Secured Visa® Credit Card',
-    issuer: 'OpenSky',
+    name: 'No-Credit-Check Secured Card',
+    issuer: 'Direct Issuer',
     minScore: 300,
     maxScore: 570,
     tier: 'Poor',
@@ -245,7 +245,7 @@ const CARDS_DATABASE: MatchedCard[] = [
     regularApr: '29.74%',
     category: 'builder',
     introBonus: 'Dedicated Credit Reporting',
-    applyLink: 'https://www.openskycc.com/',
+    applyLink: '#',
   },
 ];
 
@@ -317,7 +317,7 @@ export const CreditScoreCheckerTab: React.FC<CreditScoreCheckerTabProps> = ({
       <div className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm space-y-4">
         <div className="flex items-center justify-between">
           <span className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider font-mono-numeric">
-            Your FICO® Score
+            Your Credit Score
           </span>
           <div className="flex items-center gap-2 font-mono-numeric">
             <span className={`text-3xl sm:text-4xl font-black ${tierInfo.color}`}>
@@ -487,7 +487,7 @@ export const CreditScoreCheckerTab: React.FC<CreditScoreCheckerTabProps> = ({
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
                 <div>
                   <span className="text-[10px] font-mono-numeric font-bold text-slate-400 uppercase block">
-                    {card.issuer} · Min FICO {card.minScore}
+                    {card.issuer} · Min Score {card.minScore}
                   </span>
                   <h3 className="text-base font-black text-slate-900 dark:text-white">
                     {card.name}

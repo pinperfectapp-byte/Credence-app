@@ -5,6 +5,8 @@ import {
   calculateDebtComparison, 
   ComparisonResult 
 } from '../utils/debtCalculator';
+import { DebtPayoffVisualizer } from './DebtPayoffVisualizer';
+import { AvalancheInterestSavingsCard } from './AvalancheInterestSavingsCard';
 import { 
   Flame, 
   Snowflake, 
@@ -20,18 +22,12 @@ import {
   RefreshCw
 } from 'lucide-react';
 
-const DEFAULT_SAMPLE_DEBTS: DebtItem[] = [
-  { id: 'debt_sample_1', name: 'Chase Freedom Card', category: 'Credit Card', balance: 3500, apr: 28.99, minPayment: 90 },
-  { id: 'debt_sample_2', name: 'Citi Double Cash Card', category: 'Credit Card', balance: 1400, apr: 24.99, minPayment: 45 },
-  { id: 'debt_sample_3', name: 'Auto Loan', category: 'Auto Loan', balance: 6500, apr: 7.99, minPayment: 160 },
-];
-
 interface DebtPayoffCalculatorTabProps {
   profile: CreditProfile;
 }
 
 export const DebtPayoffCalculatorTab: React.FC<DebtPayoffCalculatorTabProps> = ({ profile }) => {
-  // Convert profile credit cards into DebtItems initially if present, else use sample debts
+  // Convert profile credit cards into DebtItems initially if present, else start clean
   const initialDebtsFromProfile: DebtItem[] = useMemo(() => {
     if (profile.cards.length > 0) {
       return profile.cards.map((c) => ({
@@ -43,20 +39,20 @@ export const DebtPayoffCalculatorTab: React.FC<DebtPayoffCalculatorTabProps> = (
         minPayment: Math.max(25, Math.round(c.balance * 0.025)),
       }));
     }
-    return DEFAULT_SAMPLE_DEBTS;
+    return [];
   }, [profile.cards]);
 
   const [debts, setDebts] = useState<DebtItem[]>(initialDebtsFromProfile);
-  const [extraPayment, setExtraPayment] = useState<number>(100);
+  const [extraPayment, setExtraPayment] = useState<number>(0);
   const [activeStrategyView, setActiveStrategyView] = useState<'Avalanche' | 'Snowball'>('Avalanche');
 
   // New debt form state
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [newDebtName, setNewDebtName] = useState<string>('');
   const [newCategory, setNewCategory] = useState<'Credit Card' | 'Auto Loan' | 'Student Loan' | 'Personal Loan' | 'Medical Debt'>('Credit Card');
-  const [newBalance, setNewBalance] = useState<string>('2000');
-  const [newApr, setNewApr] = useState<string>('24.99');
-  const [newMinPayment, setNewMinPayment] = useState<string>('60');
+  const [newBalance, setNewBalance] = useState<string>('');
+  const [newApr, setNewApr] = useState<string>('');
+  const [newMinPayment, setNewMinPayment] = useState<string>('');
 
   // Compute comparison
   const comparison: ComparisonResult = useMemo(() => {
@@ -150,73 +146,25 @@ export const DebtPayoffCalculatorTab: React.FC<DebtPayoffCalculatorTabProps> = (
         </div>
       </div>
 
-      {/* 2. Monthly Extra Cash Payoff Controller */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4 transition-colors">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-          <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>Monthly Payoff Budget Controller</span>
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              How much extra cash can you allocate above mandatory minimum payments each month?
-            </p>
-          </div>
-
-          <div className="flex items-baseline gap-2 text-xs font-mono-numeric">
-            <span className="text-slate-500 dark:text-slate-400">Total Monthly Payment:</span>
-            <span className="text-lg font-bold text-emerald-700 dark:text-emerald-400 font-mono-numeric">
-              ${(totalMinPayments + extraPayment).toLocaleString()}
-              <span className="text-xs font-normal text-slate-400">/mo</span>
-            </span>
-          </div>
-        </div>
-
-        <div>
-          <div className="flex items-center justify-between text-xs mb-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-300">
-              Extra Monthly Cash Towards Debt:
-            </span>
-            <span className="font-bold text-emerald-700 dark:text-emerald-400 text-base font-mono-numeric">
-              +${extraPayment.toLocaleString()} / month
-            </span>
-          </div>
-          <input
-            type="range"
-            min="0"
-            max="2500"
-            step="25"
-            value={extraPayment}
-            onChange={(e) => setExtraPayment(parseInt(e.target.value) || 0)}
-            className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+      {/* 2. Interactive Debt Payoff Visualizer & Avalanche Savings Summary Card */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <div className="xl:col-span-8">
+          <DebtPayoffVisualizer
+            debts={debts}
+            extraPayment={extraPayment}
+            onExtraPaymentChange={setExtraPayment}
+            activeStrategyView={activeStrategyView}
+            onSelectStrategyView={setActiveStrategyView}
           />
-          <div className="flex justify-between text-[11px] text-slate-400 mt-1 font-mono-numeric">
-            <span>$0 (Minimums Only)</span>
-            <span>+$500/mo</span>
-            <span>+$1,500/mo</span>
-            <span>+$2,500/mo</span>
-          </div>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs text-slate-600 dark:text-slate-300">
-          <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700">
-            <span className="text-slate-400 block text-[11px]">Total Outstanding Debt</span>
-            <span className="text-lg font-bold text-slate-900 dark:text-white font-mono-numeric">
-              ${totalDebtBalance.toLocaleString()}
-            </span>
-          </div>
-          <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700">
-            <span className="text-slate-400 block text-[11px]">Mandatory Minimums</span>
-            <span className="text-lg font-bold text-slate-900 dark:text-white font-mono-numeric">
-              ${totalMinPayments.toLocaleString()}/mo
-            </span>
-          </div>
-          <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700">
-            <span className="text-slate-400 block text-[11px]">Active Debt Obligations</span>
-            <span className="text-lg font-bold text-slate-900 dark:text-white font-mono-numeric">
-              {debts.length} account{debts.length !== 1 ? 's' : ''}
-            </span>
-          </div>
+        <div className="xl:col-span-4 sticky top-6">
+          <AvalancheInterestSavingsCard
+            debts={debts}
+            extraPayment={extraPayment}
+            comparison={comparison}
+            onSelectStrategyView={setActiveStrategyView}
+            activeStrategyView={activeStrategyView}
+          />
         </div>
       </div>
 
@@ -472,7 +420,7 @@ export const DebtPayoffCalculatorTab: React.FC<DebtPayoffCalculatorTabProps> = (
                 <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Debt Name / Account</label>
                 <input
                   type="text"
-                  placeholder="e.g. Chase Freedom / Auto Loan"
+                  placeholder="e.g. Primary Credit Card / Auto Loan"
                   value={newDebtName}
                   onChange={(e) => setNewDebtName(e.target.value)}
                   required

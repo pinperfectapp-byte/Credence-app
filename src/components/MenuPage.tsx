@@ -1,347 +1,525 @@
-import React, { useState } from 'react';
-import { InAppNotification } from '../types/notification';
+import React, { useState, useMemo } from 'react';
 import { LegalModalTab } from './FooterLegalModal';
 import { DownbaseFooter } from './DownbaseFooter';
 import { 
-  TrendingUp, 
-  Calendar, 
-  DollarSign, 
-  Scale, 
   ShieldCheck, 
-  Calculator,
-  Award,
-  BookOpen,
-  Building2,
+  ArrowDownCircle, 
+  FlaskConical, 
+  Trash2, 
+  Flame, 
   Compass, 
-  User, 
   Settings, 
-  Search, 
-  ArrowRight,
-  Bell,
-  Printer,
-  FileDown,
-  X,
-  CheckCircle2,
-  AlertCircle,
+  ChevronRight, 
+  Wallet, 
+  Scale, 
+  PiggyBank, 
+  Clock, 
+  TrendingDown, 
+  Calendar, 
+  Award, 
+  Layers, 
+  Percent, 
+  ShieldAlert,
+  Info,
   ShoppingCart,
-  Sliders
+  TrendingUp,
+  SlidersHorizontal,
+  HelpCircle,
+  CheckCircle2,
+  FileText,
+  Target,
+  Zap,
+  DollarSign,
+  PieChart,
+  Search,
+  KeyRound
 } from 'lucide-react';
 
 interface MenuPageProps {
   onNavigate: (pageId: string) => void;
   onOpenLegal?: (tab: LegalModalTab) => void;
-  notifications?: InAppNotification[];
-  onDismissNotification?: (id: string) => void;
-  onClearAllNotifications?: () => void;
 }
 
-interface ToolMenuItem {
+type FeatureCategory = 'All' | 'Featured' | 'Credit & Score' | 'Budget & Debt' | 'Dispute & Legal' | 'Wealth & Savings';
+
+interface FeatureDirectoryItem {
   id: string;
   name: string;
-  category: 'Problem Solvers' | 'Legal & Disputes' | 'System & Reports';
-  description: string;
-  icon: React.ReactNode;
+  desc: string;
+  category: FeatureCategory;
   badge?: string;
+  icon: React.ReactNode;
 }
 
 export const MenuPage: React.FC<MenuPageProps> = ({ 
   onNavigate, 
   onOpenLegal,
-  notifications = [],
-  onDismissNotification,
-  onClearAllNotifications
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<FeatureCategory>('All');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const tools: ToolMenuItem[] = [
+  // 5 Hero Cards strictly matching the dashboard color scheme
+  const heroCards = [
     {
-      id: 'score_checker',
-      name: '1. Credit Score Checker',
-      category: 'Problem Solvers',
-      description: 'Enter your credit score to see the best cards you qualify for and highest rewards.',
-      icon: <Award className="w-4 h-4 text-emerald-500" />,
-      badge: 'Best Cards',
+      id: 'bills',
+      title: 'BillGuard',
+      subtitle: 'Bill tracking & alerts',
+      icon: <ShieldCheck className="w-7 h-7 text-emerald-400 stroke-[2.2]" />,
+      badge: 'Alerts',
     },
     {
-      id: 'debt_payoff',
-      name: '2. Debt Payoff Calculator',
-      category: 'Problem Solvers',
-      description: 'Snowball vs. Avalanche strategy comparison — shows exact date debt-free and dollar savings.',
-      icon: <DollarSign className="w-4 h-4 text-emerald-500" />,
-      badge: 'Debt-Free Date',
+      id: 'debt_destroyer',
+      title: 'DebtDestroyer',
+      subtitle: 'Payoff plans & strategy',
+      icon: <ArrowDownCircle className="w-7 h-7 text-[#38BDF8] stroke-[2.2]" />,
+      badge: 'Snowball',
     },
     {
-      id: 'credit_builder',
-      name: '3. Credit Builder for Beginners',
-      category: 'Problem Solvers',
-      description: 'For 18–21 year olds with zero credit — secured cards, authorized user boost & fast tracks.',
-      icon: <BookOpen className="w-4 h-4 text-sky-500" />,
-      badge: 'Ages 18-21',
+      id: 'score_boost',
+      title: 'ScoreBoost Lab',
+      subtitle: 'Credit tips & simulations',
+      icon: <FlaskConical className="w-7 h-7 text-cyan-400 stroke-[2.2]" />,
+      badge: '+35 Pts',
     },
     {
-      id: 'loan_comparison',
-      name: '4. Loan Comparison',
-      category: 'Problem Solvers',
-      description: 'Personal loans comparison engine — compare top US lenders, best APRs & interest saved.',
-      icon: <Building2 className="w-4 h-4 text-amber-500" />,
-      badge: 'Best APR',
+      id: 'sub_scrub',
+      title: 'SubScrub',
+      subtitle: 'Cancel subscriptions',
+      icon: <Trash2 className="w-7 h-7 text-teal-400 stroke-[2.2]" />,
+      badge: 'Cancel Leak',
+    },
+    {
+      id: 'money_streak',
+      title: 'MoneyStreak',
+      subtitle: 'Daily savings streak • 7 days',
+      icon: <Flame className="w-7 h-7 text-amber-400 stroke-[2.2] fill-amber-400/20" />,
+      badge: 'Active Streak',
+    },
+  ];
+
+  // Complete Catalog of ALL Credence Features
+  const allFeaturesCatalog: FeatureDirectoryItem[] = [
+    {
+      id: 'auth',
+      name: 'Encrypted Vault Account',
+      desc: 'Email & Password authentication and sovereign vault database synchronization',
+      category: 'Featured',
+      badge: 'Encrypted Vault',
+      icon: <KeyRound className="w-4 h-4 text-sky-400" />,
     },
     {
       id: 'grocery_saver',
-      name: 'Grocery Card Saver (Pure Math)',
-      category: 'Problem Solvers',
-      description: 'Find which card saves most on groceries from 12-card sheet (Save $193–$240/yr).',
-      icon: <ShoppingCart className="w-4 h-4 text-[#00C853]" />,
-      badge: 'Grocery $',
-    },
-    {
-      id: 'compare',
-      name: 'Real-Time Dollar Credit & APR Calculator',
-      category: 'Problem Solvers',
-      description: 'Calculate live dollar savings by dropping card APR (Save $200+/year in real cash).',
-      icon: <Calculator className="w-4 h-4 text-emerald-500" />,
-      badge: 'Real Dollars',
-    },
-    {
-      id: 'track',
-      name: 'Score Tracker (Line Chart)',
-      category: 'Problem Solvers',
-      description: 'FICO® score line chart (300-850), 750 goal line, and monthly trajectory.',
-      icon: <TrendingUp className="w-4 h-4 text-emerald-500" />,
-      badge: 'Goal 750',
+      name: 'Grocery Card Saver',
+      desc: 'Cashback optimizer comparing 12 supermarket cards up to 6% back',
+      category: 'Featured',
+      badge: '6% Cash Back',
+      icon: <ShoppingCart className="w-4 h-4 text-amber-400" />,
     },
     {
       id: 'statement_optimizer',
       name: 'AZEO Statement Date Optimizer',
-      category: 'Problem Solvers',
-      description: 'Report < 3% utilization by paying before statement close for +20 to +45 pts.',
-      icon: <Calendar className="w-4 h-4 text-sky-500" />,
-      badge: '+45 Pts',
+      desc: 'All-Zero-Except-One algorithm to report <3% utilization on bureaus',
+      category: 'Credit & Score',
+      badge: 'AZEO Algorithm',
+      icon: <Calendar className="w-4 h-4 text-[#38BDF8]" />,
     },
     {
-      id: 'dispute_hub',
-      name: 'Bureau Tradeline Dispute Hub',
-      category: 'Legal & Disputes',
-      description: 'Track negative tradelines, 30-day statutory clocks, and register deletions.',
-      icon: <ShieldCheck className="w-4 h-4 text-rose-500" />,
-      badge: '+48 Pts',
+      id: 'track',
+      name: 'Credit Score Trajectory Graph',
+      desc: 'Interactive 300-850 historical curve with 750 target goal projection',
+      category: 'Credit & Score',
+      badge: 'Curve Math',
+      icon: <TrendingUp className="w-4 h-4 text-emerald-400" />,
+    },
+    {
+      id: 'compare',
+      name: 'Card Compare & APR Refinance',
+      desc: 'Calculate real-time dollar savings dropping 29% APR to 0% promo rates',
+      category: 'Budget & Debt',
+      badge: 'Slash APR',
+      icon: <DollarSign className="w-4 h-4 text-emerald-400" />,
+    },
+    {
+      id: 'bureau_disputes',
+      name: 'FCRA Bureau Dispute Generator',
+      desc: 'Federal audit dispute letters (609, 611, 623) under 15 U.S.C. § 1681i',
+      category: 'Dispute & Legal',
+      badge: 'FCRA § 1681',
+      icon: <Scale className="w-4 h-4 text-amber-400" />,
     },
     {
       id: 'legal_toolkit',
-      name: 'FCRA § 609 Legal Dispute Generator',
-      category: 'Legal & Disputes',
-      description: 'Draft attorney-standard certified mail dispute letters citing 15 U.S.C. § 1681i.',
-      icon: <Scale className="w-4 h-4 text-amber-500" />,
-      badge: 'Statutory',
+      name: 'Pay-for-Delete & Debt Letters',
+      desc: 'Certified collector negotiation pacts and statute of limitations auditor',
+      category: 'Dispute & Legal',
+      badge: 'Statutory Pack',
+      icon: <FileText className="w-4 h-4 text-amber-400" />,
     },
     {
-      id: 'simulator',
-      name: 'What-If Score Simulator',
-      category: 'Problem Solvers',
-      description: 'Model future score jumps and mortgage/auto loan dollar interest savings.',
-      icon: <Sliders className="w-4 h-4 text-teal-500" />,
+      id: 'score_checker',
+      name: 'Tri-Bureau Score Checker',
+      desc: 'Side-by-side Experian, TransUnion, and Equifax score calibration',
+      category: 'Credit & Score',
+      badge: 'Tri-Bureau',
+      icon: <Award className="w-4 h-4 text-[#38BDF8]" />,
     },
     {
-      id: 'notifications_tool',
-      name: 'In-App Alerts & Notification Center',
-      category: 'System & Reports',
-      description: 'Working feature: monitor statement closing dates and derogatory status alerts.',
-      icon: <Bell className="w-4 h-4 text-emerald-500" />,
-      badge: notifications.length > 0 ? `${notifications.length} Active` : 'Working',
+      id: 'credit_builder',
+      name: 'Credit Builder for Beginners',
+      desc: 'Step-by-step roadmap: secured cards, AU piggybacking, credit-builder loans',
+      category: 'Credit & Score',
+      badge: 'Step-by-Step',
+      icon: <Compass className="w-4 h-4 text-[#38BDF8]" />,
     },
     {
-      id: 'export_report_tool',
-      name: 'Export Credit Profile Dossier (PDF)',
-      category: 'System & Reports',
-      description: 'Triggers formatted browser PDF download via print system.',
-      icon: <FileDown className="w-4 h-4 text-emerald-500" />,
-      badge: 'PDF',
+      id: 'loan_comparison',
+      name: 'Auto & Personal Loan Analyzer',
+      desc: 'Amortization schedule and credit score tier interest cost calculator',
+      category: 'Budget & Debt',
+      badge: 'Amortization',
+      icon: <Percent className="w-4 h-4 text-teal-400" />,
     },
     {
-      id: 'settings',
-      name: 'Settings, Privacy Mode & Backup',
-      category: 'System & Reports',
-      description: 'Toggle Light/Dark mode, public screen shield blur, and data backups.',
-      icon: <Settings className="w-4 h-4 text-slate-500" />,
-      badge: 'Settings',
+      id: 'credit_myths',
+      name: 'Credit Myths & Scoring Rules Quiz',
+      desc: 'Interactive 8-question algorithm quiz explaining closing accounts & utilization',
+      category: 'Credit & Score',
+      badge: 'Mastery Quiz',
+      icon: <HelpCircle className="w-4 h-4 text-indigo-400" />,
     },
     {
-      id: 'profile',
-      name: 'Personal Credit Profile',
-      category: 'System & Reports',
-      description: 'Manage personal details, scores across all 3 bureaus, and card accounts.',
-      icon: <User className="w-4 h-4 text-slate-500" />,
+      id: 'action_plan',
+      name: 'Personalized Score Action Plan',
+      desc: 'Algorithmic checklist of the 3 fastest mathematical score improvements',
+      category: 'Credit & Score',
+      badge: 'Plan Check',
+      icon: <Target className="w-4 h-4 text-[#38BDF8]" />,
+    },
+    {
+      id: 'budget',
+      name: 'Budget Tracker Ledger',
+      desc: 'Zero-based budgeting envelopes with local downbase ledger tracking',
+      category: 'Budget & Debt',
+      badge: 'Downbase',
+      icon: <PieChart className="w-4 h-4 text-emerald-400" />,
+    },
+    {
+      id: 'debt_destroyer',
+      name: 'Debt Destroyer (Avalanche / Snowball)',
+      desc: 'Payoff date projections and total interest saved under Avalanche ranking',
+      category: 'Budget & Debt',
+      badge: 'Avalanche',
+      icon: <ArrowDownCircle className="w-4 h-4 text-[#38BDF8]" />,
+    },
+    {
+      id: 'bills',
+      name: 'BillGuard Payment Watchdog',
+      desc: 'Schedule recurring bills and maintain 100% on-time payment history',
+      category: 'Budget & Debt',
+      badge: '35% Factor',
+      icon: <ShieldCheck className="w-4 h-4 text-emerald-400" />,
+    },
+    {
+      id: 'score_boost',
+      name: 'ScoreBoost Lab Simulator',
+      desc: 'What-if test lab: simulate paying debts, opening trade lines, or inquiries',
+      category: 'Credit & Score',
+      badge: 'Simulation',
+      icon: <FlaskConical className="w-4 h-4 text-cyan-400" />,
+    },
+    {
+      id: 'sub_scrub',
+      name: 'SubScrub Leak Stopper',
+      desc: 'Unused subscription audit and annual dollar waste calculator',
+      category: 'Budget & Debt',
+      badge: 'Audit Leak',
+      icon: <Trash2 className="w-4 h-4 text-teal-400" />,
+    },
+    {
+      id: 'money_streak',
+      name: 'MoneyStreak Savings Habit',
+      desc: 'Daily consecutive financial check-in streak and milestones',
+      category: 'Wealth & Savings',
+      badge: 'Gamified',
+      icon: <Flame className="w-4 h-4 text-amber-400" />,
+    },
+    {
+      id: 'emergency_vault',
+      name: 'Emergency Fund Vault',
+      desc: '3-to-6 month bare-bones expense buffer calculator and funding meter',
+      category: 'Wealth & Savings',
+      badge: 'Safety Net',
+      icon: <PiggyBank className="w-4 h-4 text-emerald-400" />,
+    },
+    {
+      id: 'net_worth',
+      name: 'Net Worth Balance Sheet',
+      desc: 'Real-time assets vs liabilities balance sheet and net worth growth',
+      category: 'Wealth & Savings',
+      badge: 'Balance Sheet',
+      icon: <TrendingUp className="w-4 h-4 text-[#38BDF8]" />,
+    },
+    {
+      id: 'inquiries_tracker',
+      name: 'Credit Inquiry Shield',
+      desc: 'FCRA 2-year drop-off timer and scoring impact tracker for hard pulls',
+      category: 'Credit & Score',
+      badge: '2-Yr Dropoff',
+      icon: <ShieldAlert className="w-4 h-4 text-indigo-400" />,
+    },
+    {
+      id: 'savings_goals',
+      name: 'Multi-Vault Savings Goals',
+      desc: 'Target savings milestones with auto-calculated weekly savings pace',
+      category: 'Wealth & Savings',
+      badge: 'Goals',
+      icon: <Wallet className="w-4 h-4 text-teal-400" />,
+    },
+    {
+      id: 'dispute_tracker',
+      name: 'FCRA 30-Day Dispute Clock',
+      desc: '15 U.S.C. § 1681i 30-day investigation deadline timer for credit bureaus',
+      category: 'Dispute & Legal',
+      badge: '30 Days',
+      icon: <Clock className="w-4 h-4 text-amber-400" />,
+    },
+    {
+      id: 'interest_bleed',
+      name: 'APR Interest Bleed Monitor',
+      desc: 'Calculate exact daily and monthly dollar loss to credit card APR interest',
+      category: 'Budget & Debt',
+      badge: 'Daily Bleed',
+      icon: <TrendingDown className="w-4 h-4 text-rose-400" />,
+    },
+    {
+      id: 'cash_flow',
+      name: 'Cash Flow Forecaster',
+      desc: '30-day forward liquidity calendar to prevent bank overdraft fees',
+      category: 'Budget & Debt',
+      badge: '30-Day Flow',
+      icon: <Calendar className="w-4 h-4 text-blue-400" />,
+    },
+    {
+      id: 'rewards_tracker',
+      name: 'Reward Points & Cashback Vault',
+      desc: 'Track cash back, miles, points and expiration schedules in one place',
+      category: 'Wealth & Savings',
+      badge: 'Rewards',
+      icon: <Award className="w-4 h-4 text-yellow-400" />,
+    },
+    {
+      id: 'no_spend_tracker',
+      name: 'No-Spend Days Calendar',
+      desc: 'Calendar of zero-discretionary spending days and impulse money saved',
+      category: 'Budget & Debt',
+      badge: 'Habit',
+      icon: <CheckCircle2 className="w-4 h-4 text-emerald-400" />,
+    },
+    {
+      id: 'utilization_tracker',
+      name: 'Revolving Utilization Monitor',
+      desc: 'Per-card and aggregate utilization heatmap to keep balances under 9%',
+      category: 'Credit & Score',
+      badge: 'Under 9%',
+      icon: <Percent className="w-4 h-4 text-cyan-400" />,
+    },
+    {
+      id: 'sinking_funds',
+      name: 'Sinking Funds Allocator',
+      desc: 'Reserve pools for irregular expenses like auto insurance and taxes',
+      category: 'Wealth & Savings',
+      badge: 'Funds',
+      icon: <Layers className="w-4 h-4 text-violet-400" />,
     },
   ];
 
-  const filteredTools = tools.filter((tool) => {
-    return (
-      tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tool.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
-
-  const handleToolClick = (toolId: string) => {
-    if (toolId === 'notifications_tool') {
-      setShowNotificationModal(true);
-      return;
-    }
-    if (toolId === 'export_report_tool') {
-      window.print();
-      return;
-    }
-    onNavigate(toolId);
-  };
+  const filteredFeatures = useMemo(() => {
+    return allFeaturesCatalog.filter((f) => {
+      const matchesCategory = selectedCategory === 'All' || f.category === selectedCategory || (selectedCategory === 'Featured' && ['grocery_saver', 'statement_optimizer', 'track', 'tracker', 'budget'].includes(f.id));
+      const matchesSearch = searchQuery.trim() === '' || 
+        f.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        f.desc.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
 
   return (
-    <div className="space-y-4 w-full max-w-full overflow-x-hidden">
-      {/* Header Banner */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-[10px] font-mono-numeric font-black uppercase text-emerald-600 dark:text-emerald-400 tracking-wider block">
-              Directory &amp; Features
-            </span>
-            <h2 className="text-base font-black text-slate-900 dark:text-white">
-              Credence Tools Menu
-            </h2>
+    <div className="w-full space-y-4 pb-8 select-none font-sans text-slate-100">
+      
+      {/* ========================================================================= */}
+      {/* 2-COLUMN GRID OF HERO CARDS (Dashboard Color Palette) */}
+      {/* ========================================================================= */}
+      <div className="grid grid-cols-2 gap-3">
+        {heroCards.map((card) => (
+          <button
+            key={card.id}
+            type="button"
+            onClick={() => onNavigate(card.id)}
+            className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] hover:border-[#38BDF8]/60 rounded-3xl p-4.5 shadow-xl flex flex-col items-center justify-center text-center feature-interactive-card transition-all cursor-pointer group min-h-[140px]"
+          >
+            {/* Centered Large Icon Well */}
+            <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-[#102244] border border-[rgba(56,120,210,0.2)] group-hover:scale-105 transition-transform shadow-inner">
+              {card.icon}
+            </div>
+
+            {/* Title */}
+            <h3 className="text-sm font-black text-white mt-2.5 tracking-tight group-hover:text-[#38BDF8] transition-colors">
+              {card.title}
+            </h3>
+
+            {/* Subtitle */}
+            <p className="text-[11px] font-medium text-[#8FA0C0] mt-0.5 leading-tight">
+              {card.subtitle}
+            </p>
+          </button>
+        ))}
+
+        {/* 6th Slot in Grid: Tracker Hub Engine */}
+        <button
+          type="button"
+          onClick={() => onNavigate('tracker')}
+          className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] hover:border-[#38BDF8]/60 rounded-3xl p-4.5 shadow-xl flex flex-col items-center justify-center text-center feature-interactive-card transition-all cursor-pointer group min-h-[140px]"
+        >
+          <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-[#102244] border border-[rgba(56,120,210,0.2)] text-[#38BDF8] group-hover:scale-105 transition-transform shadow-inner">
+            <Compass className="w-7 h-7 stroke-[2.2]" />
           </div>
-          <Compass className="w-5 h-5 text-emerald-500" />
+          <h3 className="text-sm font-black text-white mt-2.5 tracking-tight group-hover:text-[#38BDF8] transition-colors">
+            Tracker Hub
+          </h3>
+          <p className="text-[11px] font-medium text-[#8FA0C0] mt-0.5 leading-tight">
+            All 17 Inbuilt Engines
+          </p>
+        </button>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* FEATURED SPOTLIGHT: Grocery Card Saver */}
+      {/* ========================================================================= */}
+      <div 
+        onClick={() => onNavigate('grocery_saver')}
+        className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] hover:border-amber-400/50 rounded-3xl p-4.5 shadow-xl flex items-center justify-between gap-3 feature-interactive-card transition-all cursor-pointer"
+      >
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-400/30 text-amber-400 flex items-center justify-center shrink-0">
+            <ShoppingCart className="w-6 h-6 stroke-[2.2]" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-black text-white">
+                Grocery Card Saver
+              </h3>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold font-mono-numeric">
+                Up to 6% Back
+              </span>
+            </div>
+            <p className="text-xs text-[#8FA0C0] mt-0.5 leading-snug">
+              Compare 12 US supermarket credit cards &amp; stop losing money to debit cards
+            </p>
+          </div>
         </div>
 
-        {/* Search Bar */}
+        <div className="p-2.5 rounded-xl bg-[#102244] text-[#38BDF8] shrink-0 border border-[rgba(56,120,210,0.2)]">
+          <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* COMPLETE ALL-IN-ONE EXTENDED FINANCIAL ENGINES DIRECTORY */}
+      {/* ========================================================================= */}
+      <div className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] rounded-3xl p-5 shadow-xl space-y-3.5">
+        
+        {/* Header & Feature Count */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Layers className="w-4 h-4 text-[#38BDF8]" />
+            <h4 className="text-xs font-black text-white uppercase tracking-wider font-mono-numeric">
+              All Financial Engines ({allFeaturesCatalog.length})
+            </h4>
+          </div>
+          <span className="text-[10px] font-mono-numeric font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+            100% Client-Side
+          </span>
+        </div>
+
+        {/* Search Input for Quick Access */}
         <div className="relative">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 absolute left-3.5 top-3 text-[#8FA0C0]" />
           <input
             type="text"
-            placeholder="Search tools, APR, AZEO, disputes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-emerald-500 font-mono-numeric"
+            placeholder="Search all tools (e.g. Grocery, Dispute, Budget, AZEO...)"
+            className="w-full pl-9 pr-3 py-2 bg-[#102244] border border-[rgba(56,120,210,0.25)] rounded-xl text-xs font-semibold text-white placeholder:text-[#8FA0C0] focus:outline-none focus:ring-2 focus:ring-[#38BDF8]"
           />
         </div>
-      </div>
 
-      {/* Tools List */}
-      <div className="space-y-2">
-        {filteredTools.map((tool) => (
-          <div
-            key={tool.id}
-            onClick={() => handleToolClick(tool.id)}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 rounded-2xl p-3 shadow-xs cursor-pointer flex items-center justify-between gap-3 transition-all"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0">
-                {tool.icon}
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h3 className="font-extrabold text-slate-900 dark:text-white text-xs">
-                    {tool.name}
-                  </h3>
-                  {tool.badge && (
-                    <span className="text-[9px] font-mono-numeric font-bold px-1.5 py-0.5 rounded-sm bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
-                      {tool.badge}
-                    </span>
-                  )}
-                </div>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
-                  {tool.description}
-                </p>
-              </div>
-            </div>
-
-            <ArrowRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          </div>
-        ))}
-      </div>
-
-      {/* Downbase Footer Features */}
-      {onOpenLegal && (
-        <DownbaseFooter
-          onOpenLegal={onOpenLegal}
-          onNavigateTab={onNavigate}
-          showThreeBadges={true}
-        />
-      )}
-
-      {/* Working Feature: In-App Alerts & Notification Center Modal */}
-      {showNotificationModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-3 animate-fadeIn">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-sm w-full p-4 shadow-2xl space-y-3.5">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-              <div className="flex items-center gap-1.5">
-                <Bell className="w-4 h-4 text-emerald-500" />
-                <h4 className="font-extrabold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
-                  In-App Alerts &amp; Statement Warnings
-                </h4>
-              </div>
-              <button
-                onClick={() => setShowNotificationModal(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {notifications.length === 0 ? (
-              <div className="py-6 text-center space-y-1 text-xs">
-                <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
-                <span className="font-bold text-slate-800 dark:text-slate-200 block">
-                  All Systems Clear
-                </span>
-                <p className="text-[11px] text-slate-400">
-                  No statement dates closing in the next 3 days, and no derogatory status changes.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-2 max-h-60 overflow-y-auto">
-                {notifications.map((notif) => (
-                  <div
-                    key={notif.id}
-                    className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-1 text-xs"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-black text-slate-900 dark:text-white text-xs">
-                        {notif.title}
-                      </span>
-                      {onDismissNotification && (
-                        <button
-                          onClick={() => onDismissNotification(notif.id)}
-                          className="text-[10px] text-slate-400 hover:text-slate-600"
-                        >
-                          Dismiss
-                        </button>
-                      )}
-                    </div>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                      {notif.message}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
-              {notifications.length > 0 && onClearAllNotifications && (
-                <button
-                  onClick={onClearAllNotifications}
-                  className="text-[11px] font-bold text-rose-500 hover:underline cursor-pointer"
-                >
-                  Clear All Alerts
-                </button>
-              )}
-              <button
-                onClick={() => setShowNotificationModal(false)}
-                className="ml-auto px-4 py-1.5 rounded-xl font-black text-xs bg-slate-900 dark:bg-slate-800 text-white cursor-pointer"
-              >
-                Close
-              </button>
-            </div>
-          </div>
+        {/* Category Filter Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto py-1 no-scrollbar text-[11px] font-bold">
+          {(['All', 'Featured', 'Credit & Score', 'Budget & Debt', 'Dispute & Legal', 'Wealth & Savings'] as FeatureCategory[]).map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-2.5 py-1 rounded-lg shrink-0 transition-all cursor-pointer ${
+                selectedCategory === cat
+                  ? 'bg-[#2563EB] text-white shadow-xs border border-[#38BDF8]/50'
+                  : 'bg-[#102244] hover:bg-[#152e5c] text-[#8FA0C0] hover:text-white border border-transparent'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
-      )}
+
+        {/* List of Features */}
+        <div className="space-y-1.5 pt-1 divide-y divide-[rgba(56,120,210,0.15)] max-h-[460px] overflow-y-auto pr-1">
+          {filteredFeatures.map((tool) => (
+            <button
+              key={tool.id}
+              type="button"
+              onClick={() => onNavigate(tool.id)}
+              className="w-full pt-2.5 pb-2 flex items-center justify-between text-left hover:bg-[#102244]/60 px-2.5 rounded-xl transition-all cursor-pointer feature-interactive-card group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-[#102244] border border-[rgba(56,120,210,0.2)] shrink-0 group-hover:scale-105 transition-transform">
+                  {tool.icon}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-black text-white group-hover:text-[#38BDF8] transition-colors">
+                      {tool.name}
+                    </span>
+                    {tool.badge && (
+                      <span className="text-[9px] font-mono-numeric font-bold px-1.5 py-0.2 rounded-md bg-[#102244] text-[#8FA0C0] border border-[rgba(56,120,210,0.2)]">
+                        {tool.badge}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[11px] text-[#8FA0C0] line-clamp-1">
+                    {tool.desc}
+                  </span>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#38BDF8] transition-colors shrink-0" />
+            </button>
+          ))}
+
+          {filteredFeatures.length === 0 && (
+            <div className="py-6 text-center text-xs text-[#8FA0C0]">
+              No tools matched &quot;{searchQuery}&quot;. Try another search term.
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Downbase Footer Features Section */}
+      <div className="pt-2">
+        <DownbaseFooter
+          onOpenLegal={onOpenLegal || (() => {})}
+          onNavigateTab={onNavigate}
+        />
+      </div>
+
     </div>
   );
 };

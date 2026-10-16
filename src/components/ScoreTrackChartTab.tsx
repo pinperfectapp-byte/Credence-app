@@ -10,7 +10,7 @@ import {
   Calendar
 } from 'lucide-react';
 
-const STORAGE_KEY = 'credence_score_history_fresh_v8';
+const STORAGE_KEY = 'chidoniq_score_history_clean_v12';
 
 // No mock data: app starts clean and untouched
 const DEFAULT_HISTORY: ScoreHistoryEntry[] = [];
@@ -59,7 +59,7 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
     return [...history].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [history]);
 
-  // Real Calculated Insights (Pure Math, Not AI):
+  // Real Calculated Insights (Pure Mathematical Calculations):
   // Formula: Points_Gained = Latest_Score - First_Score
   // Formula: Avg_Growth_Per_Month = Points_Gained / Months_Since_Start
   const mathInsights = useMemo(() => {
@@ -144,12 +144,12 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
     <div className="space-y-4 w-full max-w-full overflow-x-hidden">
       
       {/* 1. REAL LINE CHART (Color: #00FF85 green, thickness: 3px, dots, 750 goal line) */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-xs space-y-3 overflow-hidden">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+      <div className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] rounded-3xl p-4 sm:p-5 shadow-xl space-y-3 overflow-hidden text-white">
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-[rgba(56,120,210,0.18)] pb-2.5">
           <div className="flex items-center gap-1.5">
-            <TrendingUp className="w-4 h-4 text-[#00FF85]" />
+            <TrendingUp className="w-4 h-4 text-[#38BDF8]" />
             <h3 className="font-extrabold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
-              FICO® History Curve (300–850)
+              Score History Curve (300–850)
             </h3>
           </div>
 
@@ -157,10 +157,10 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
           <div className="flex items-center gap-3 text-[11px] font-mono-numeric">
             <div className="flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-full bg-[#00FF85]" />
-              <span className="font-bold text-slate-700 dark:text-slate-300">Score</span>
+              <span className="font-bold text-slate-700 dark:text-slate-200">Score</span>
             </div>
-            <div className="flex items-center gap-1 text-slate-400">
-              <span className="w-3 border-b-2 border-dashed border-slate-400 inline-block" />
+            <div className="flex items-center gap-1 text-slate-400 dark:text-[#8FA0C0]">
+              <span className="w-3 border-b-2 border-dashed border-slate-400 dark:border-[#8FA0C0] inline-block" />
               <span>Goal: 750</span>
             </div>
           </div>
@@ -168,21 +168,21 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
 
         {/* Clean Empty State if no points logged yet */}
         {sortedHistory.length === 0 ? (
-          <div className="py-8 px-4 text-center space-y-3 bg-slate-50 dark:bg-slate-850 rounded-xl border border-dashed border-slate-200 dark:border-slate-800">
-            <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto">
+          <div className="py-8 px-4 text-center space-y-3 bg-slate-50 dark:bg-[#081326] rounded-xl border border-dashed border-slate-200 dark:border-[rgba(56,120,210,0.25)]">
+            <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-[#102244] text-[#2563EB] dark:text-[#38BDF8] flex items-center justify-center mx-auto border border-blue-200 dark:border-[rgba(56,120,210,0.3)]">
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
               <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                 No Score History Points Yet
               </h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                Record your starting FICO® score to see live trajectory math.
+              <p className="text-[11px] text-slate-500 dark:text-[#8FA0C0] mt-0.5">
+                Record your starting credit score to see live trajectory math.
               </p>
             </div>
             <button
               onClick={handleAddQuickBaseline}
-              className="px-4 py-2 rounded-xl text-xs font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-colors shadow-xs cursor-pointer inline-flex items-center gap-1.5"
+              className="px-4 py-2 rounded-xl text-xs font-black bg-[#2563EB] hover:bg-blue-600 text-white transition-colors shadow-xs cursor-pointer inline-flex items-center gap-1.5"
             >
               <Plus className="w-3.5 h-3.5 stroke-[3]" />
               <span>Log Starting Score ({currentProfileScore > 0 ? currentProfileScore : 680})</span>
@@ -317,12 +317,12 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
         )}
       </div>
 
-      {/* 2. CALCULATED INSIGHTS BELOW GRAPH: 2 BOXES (Math, Not AI) */}
+      {/* 2. CALCULATED INSIGHTS BELOW GRAPH: 2 BOXES (Deterministic Arithmetic) */}
       <div className="grid grid-cols-2 gap-2.5">
         
         {/* Box 1: Points_Gained = Latest_Score - First_Score */}
-        <div className="bg-white dark:bg-slate-900 border border-emerald-500/40 rounded-2xl p-3.5 shadow-xs flex flex-col justify-between space-y-1">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-mono-numeric">
+        <div className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] rounded-2xl p-4 shadow-xl flex flex-col justify-between space-y-1">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-[#8FA0C0] block font-mono-numeric">
             Points Gained
           </span>
           <span
@@ -334,14 +334,14 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
           >
             {mathInsights.pointsGained >= 0 ? `+${mathInsights.pointsGained}` : mathInsights.pointsGained} pts total
           </span>
-          <span className="text-[10px] text-slate-400 font-mono-numeric block">
+          <span className="text-[10px] text-slate-400 dark:text-[#8FA0C0] font-mono-numeric block">
             Formula: Latest − First
           </span>
         </div>
 
         {/* Box 2: Avg_Growth_Per_Month = Points_Gained / Months_Since_Start */}
-        <div className="bg-white dark:bg-slate-900 border border-emerald-500/40 rounded-2xl p-3.5 shadow-xs flex flex-col justify-between space-y-1">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-mono-numeric">
+        <div className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] rounded-2xl p-4 shadow-xl flex flex-col justify-between space-y-1">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-[#8FA0C0] block font-mono-numeric">
             Monthly Pace
           </span>
           <div className="flex items-center gap-1">
@@ -360,7 +360,7 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
               {mathInsights.avgMonthly >= 0 ? `+${mathInsights.avgMonthly}` : mathInsights.avgMonthly} /mo
             </span>
           </div>
-          <span className="text-[10px] text-slate-400 font-mono-numeric block">
+          <span className="text-[10px] text-slate-400 dark:text-[#8FA0C0] font-mono-numeric block">
             Formula: Pts / Months
           </span>
         </div>
@@ -368,9 +368,9 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
       </div>
 
       {/* 3. MANUAL INPUT FORM: WRITES TO DATABASE & REFRESHES GRAPH INSTANTLY */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-xs space-y-3">
+      <div className="bg-[#0C182F] border border-[rgba(56,120,210,0.25)] rounded-2xl p-4 sm:p-5 shadow-xl space-y-3 text-white">
         <div className="flex items-center gap-1.5">
-          <Plus className="w-4 h-4 text-emerald-500 stroke-[3]" />
+          <Plus className="w-4 h-4 text-[#2563EB] dark:text-[#38BDF8] stroke-[3]" />
           <h4 className="font-extrabold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
             Log New Score Milestone
           </h4>
@@ -380,7 +380,7 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
           <div className="grid grid-cols-2 gap-2">
             {/* Input: Date */}
             <div>
-              <label className="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-0.5 font-mono-numeric">
+              <label className="text-[10px] font-bold text-slate-600 dark:text-[#8FA0C0] block mb-0.5 font-mono-numeric">
                 Date
               </label>
               <input
@@ -388,14 +388,14 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
                 value={inputDate}
                 onChange={(e) => setInputDate(e.target.value)}
                 required
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white font-mono-numeric font-bold focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
+                className="w-full bg-slate-50 dark:bg-[#081326] border border-slate-200 dark:border-[rgba(56,120,210,0.3)] rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white font-mono-numeric font-bold focus:outline-hidden focus:ring-1 focus:ring-[#2563EB]"
               />
             </div>
 
             {/* Input: Score (300-850) */}
             <div>
-              <label className="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-0.5 font-mono-numeric">
-                FICO® (300–850)
+              <label className="text-[10px] font-bold text-slate-600 dark:text-[#8FA0C0] block mb-0.5 font-mono-numeric">
+                Score (300–850)
               </label>
               <input
                 type="number"
@@ -405,52 +405,52 @@ export const ScoreTrackChartTab: React.FC<ScoreTrackChartTabProps> = ({
                 value={inputScore}
                 onChange={(e) => setInputScore(e.target.value)}
                 required
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white font-mono-numeric font-black text-center focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
+                className="w-full bg-slate-50 dark:bg-[#081326] border border-slate-200 dark:border-[rgba(56,120,210,0.3)] rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white font-mono-numeric font-black text-center focus:outline-hidden focus:ring-1 focus:ring-[#2563EB]"
               />
             </div>
           </div>
 
           {/* Input: Action Note */}
           <div>
-            <label className="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-0.5 font-mono-numeric">
+            <label className="text-[10px] font-bold text-slate-600 dark:text-[#8FA0C0] block mb-0.5 font-mono-numeric">
               Maneuver Taken
             </label>
             <input
               type="text"
-              placeholder="e.g. Paid Chase statement early"
+              placeholder="e.g. Paid primary statement early"
               value={inputNote}
               onChange={(e) => setInputNote(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
+              className="w-full bg-slate-50 dark:bg-[#081326] border border-slate-200 dark:border-[rgba(56,120,210,0.3)] rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-hidden focus:ring-1 focus:ring-[#2563EB]"
             />
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2.5 px-3 rounded-xl font-black text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+            className="w-full py-2.5 px-3 rounded-xl font-black text-xs bg-[#2563EB] hover:bg-blue-600 text-white transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <Plus className="w-4 h-4 text-slate-950 stroke-[3]" />
+            <Plus className="w-4 h-4 text-white stroke-[3]" />
             <span>Add Point to Curve</span>
           </button>
         </form>
 
         {/* History points chips */}
         {sortedHistory.length > 0 && (
-          <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-mono-numeric">
+          <div className="pt-2 border-t border-slate-100 dark:border-[rgba(56,120,210,0.18)] space-y-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-[#8FA0C0] block font-mono-numeric">
               Logged Points ({sortedHistory.length})
             </span>
             <div className="grid grid-cols-2 gap-1.5 max-h-32 overflow-y-auto pr-1">
               {sortedHistory.map((item) => (
                 <div
                   key={item.id}
-                  className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs font-mono-numeric"
+                  className="p-2 rounded-xl bg-slate-50 dark:bg-[#081326] border border-slate-200 dark:border-[rgba(56,120,210,0.2)] flex items-center justify-between text-xs font-mono-numeric"
                 >
                   <div>
                     <span className="font-black text-slate-900 dark:text-white block text-xs">
                       {item.score}
                     </span>
-                    <span className="text-[9px] text-slate-400 block">{item.date}</span>
+                    <span className="text-[9px] text-slate-400 dark:text-[#8FA0C0] block">{item.date}</span>
                   </div>
                   <button
                     onClick={() => handleDeleteEntry(item.id)}

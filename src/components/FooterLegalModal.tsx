@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CredenceLogo } from './CredenceLogo';
+import { ChidoniqLogo } from './ChidoniqLogo';
 import { 
   X, 
   ShieldCheck, 
@@ -59,7 +59,7 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
     if (!feedbackText.trim()) return;
 
     try {
-      const existing = JSON.parse(localStorage.getItem('credence_user_feedback_v1') || '[]');
+      const existing = JSON.parse(localStorage.getItem('chidoniq_user_feedback_v1') || '[]');
       const newFeedback = {
         id: `fb-${Date.now()}`,
         rating,
@@ -67,7 +67,7 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
         text: feedbackText.trim(),
         date: new Date().toISOString(),
       };
-      localStorage.setItem('credence_user_feedback_v1', JSON.stringify([newFeedback, ...existing]));
+      localStorage.setItem('chidoniq_user_feedback_v1', JSON.stringify([newFeedback, ...existing]));
     } catch {
       // Storage unavailable
     }
@@ -91,13 +91,13 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
         {/* Header Bar */}
         <div className="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md shrink-0">
           <div className="flex items-center gap-2">
-            <CredenceLogo size={28} animated={false} />
+            <ChidoniqLogo size={28} animated={false} />
             <div>
-              <span className="font-black text-slate-900 dark:text-white text-sm tracking-tight block">
-                Credence Downbase
+              <span className="font-black text-slate-900 dark:text-white text-sm tracking-tight block uppercase">
+                CHIDONIQ Downbase
               </span>
               <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono-numeric">
-                Downbase Footer Features
+                Downbase Legal & Transparency
               </span>
             </div>
           </div>
@@ -149,39 +149,75 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
           
           {/* TAB 1: Privacy Policy */}
           {activeTab === 'privacy' && (
-            <div className="space-y-3 animate-fadeIn">
+            <div className="space-y-3.5 animate-fadeIn text-slate-800 dark:text-slate-200">
               <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-                <Lock className="w-4 h-4" />
+                <Lock className="w-5 h-5 stroke-[2.2]" />
                 <h3 className="font-extrabold text-sm uppercase tracking-wide">
-                  Simple Privacy Policy
+                  CHIDONIQ Official Privacy Policy (PP)
                 </h3>
               </div>
 
-              <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-1.5">
                 <span className="font-black text-emerald-700 dark:text-emerald-300 block text-xs">
-                  Zero SSN · Zero Bank Logins · 100% In-Browser Privacy
+                  Zero SSN · Zero Cloud Telemetry · 100% In-Browser LocalStorage
                 </span>
-                <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                  Credence executes all algorithms directly inside your device browser using LocalStorage. No credit data is transmitted to external cloud databases.
+                <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Last Updated: October 2026. CHIDONIQ operates on a pure client-side sovereign data architecture. All calculations, scores, budget ledgers, and dispute letters run exclusively on your device inside your web browser. No financial data is ever collected, transmitted, stored on remote servers, or shared with third parties.
                 </p>
               </div>
 
-              <div className="space-y-2">
-                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+              <div className="space-y-2.5">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
                   <span className="font-bold text-slate-900 dark:text-white block text-xs">
-                    1. No Identity Verification Tracking
+                    1. Information We Do NOT Collect
                   </span>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    We never ask for your Social Security Number, date of birth, or online banking credentials.
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    CHIDONIQ never requests, accesses, or records your Social Security Number (SSN), date of birth, bank credentials, passwords, or credit card CVV numbers. We do not use third-party financial aggregators (e.g., Plaid, Yodlee) or require online account logins.
                   </p>
                 </div>
 
-                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
                   <span className="font-bold text-slate-900 dark:text-white block text-xs">
-                    2. Complete Data Deletion Rights
+                    2. In-Browser Local Storage (LocalStorage)
                   </span>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    You can purge your entire credit file instantly anytime via Settings &gt; Reset Data.
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    All numbers entered (balances, limits, expenses, reminders) remain strictly inside the HTML5 LocalStorage of your device browser. You maintain 100% sovereign ownership and physical custody over your data at all times.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                  <span className="font-bold text-slate-900 dark:text-white block text-xs">
+                    3. No Third-Party Data Selling or Advertising Networks
+                  </span>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    We do not sell, rent, monetize, or disclose consumer data to data brokers, credit bureaus, lenders, or ad networks. CHIDONIQ operates with zero analytics trackers, tracking cookies, or tracking pixels.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                  <span className="font-bold text-slate-900 dark:text-white block text-xs">
+                    4. Complete Right to Data Deletion (CCPA / GDPR Compliant)
+                  </span>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    You have an absolute right to purge your data at any second. Simply navigate to Settings &gt; Reset Data or clear your browser cache, and all locally stored tables will be permanently erased immediately.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                  <span className="font-bold text-slate-900 dark:text-white block text-xs">
+                    5. Google Play Store &amp; Regulatory Compliance Declaration
+                  </span>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    CHIDONIQ complies with Google Play Store Financial Services policies, the Fair Credit Reporting Act (FCRA, 15 U.S.C. § 1681), and the Credit Repair Organizations Act (CROA, 15 U.S.C. § 1679). CHIDONIQ is an educational tool and does not provide credit repair, loans, or debt settlement services.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                  <span className="font-bold text-slate-900 dark:text-white block text-xs">
+                    6. Privacy Officer &amp; Support Contact
+                  </span>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    For inquiries regarding this Privacy Policy or data security, please contact our support team at <a href="mailto:pinperfectapp@gmail.com" className="font-bold text-emerald-600 dark:text-emerald-400 underline">pinperfectapp@gmail.com</a>.
                   </p>
                 </div>
               </div>
@@ -203,7 +239,7 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
                   Sovereign Consumer Self-Advocacy Utility
                 </span>
                 <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                  Credence provides mathematical estimation models and FCRA document templates for direct consumer self-advocacy.
+                  CHIDONIQ provides mathematical estimation models and FCRA document templates for direct consumer self-advocacy.
                 </p>
               </div>
 
@@ -222,7 +258,7 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
                     Direct Self-Representation
                   </span>
                   <p className="text-slate-500 dark:text-slate-400">
-                    You represent yourself directly before credit bureaus. Credence does not act as a credit repair organization charging recurring monthly fees.
+                    You represent yourself directly before credit bureaus. CHIDONIQ does not act as a credit repair organization charging recurring monthly fees.
                   </p>
                 </div>
               </div>
@@ -296,7 +332,7 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
                     Feedback Received!
                   </h4>
                   <p className="text-xs text-slate-600 dark:text-slate-300">
-                    Thank you for helping us improve Credence. Your rating and remarks have been recorded locally.
+                    Thank you for helping us improve CHIDONIQ. Your rating and remarks have been recorded locally.
                   </p>
                   <button
                     onClick={() => {
@@ -512,7 +548,7 @@ export const FooterLegalModal: React.FC<FooterLegalModalProps> = ({
                       Solution 4 · Score Tracking
                     </span>
                     <h4 className="font-black text-slate-900 dark:text-white text-xs">
-                      FICO® Progression Line Curve
+                      Credit Score Progression Line Curve
                     </h4>
                     <span className="text-[10px] text-slate-500 block">
                       Goal 750 Prime Line, points gained, monthly pace

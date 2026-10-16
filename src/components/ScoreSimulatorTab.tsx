@@ -41,7 +41,7 @@ export const ScoreSimulatorTab: React.FC<ScoreSimulatorTabProps> = ({ profile })
     const originalUtil = (totalRevolvingDebt / totalLimit) * 100;
     const newUtil = Math.max(0, ((totalRevolvingDebt - actualPaydown) / (totalLimit + creditLimitIncrease)) * 100);
     const utilDrop = originalUtil - newUtil;
-    delta += Math.round(utilDrop * 0.7); // 1% util drop ~ 0.7 FICO pts on average
+    delta += Math.round(utilDrop * 0.7); // 1% util drop ~ 0.7 score pts on average
   }
 
   // 2. Soft-pull limit increase impact
@@ -103,7 +103,7 @@ export const ScoreSimulatorTab: React.FC<ScoreSimulatorTabProps> = ({ profile })
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">
               <Sliders className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>Real-Time US FICO® 8 Algorithm Engine</span>
+              <span>Real-Time US Credit Algorithm Engine</span>
             </div>
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Interactive Credit Score Simulator

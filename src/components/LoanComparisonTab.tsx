@@ -220,7 +220,7 @@ export const LoanComparisonTab: React.FC = () => {
               Your Credit Score
             </span>
             <span className="text-base font-black font-mono-numeric text-emerald-600 dark:text-emerald-400">
-              {userScore} FICO®
+              {userScore} Score
             </span>
           </div>
 

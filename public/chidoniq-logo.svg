@@ -1,0 +1,100 @@
+<svg width="400" height="400" viewBox="0 0 240 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="chLogoGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="25%" stop-color="#2563EB" />
+      <stop offset="60%" stop-color="#1D4ED8" />
+      <stop offset="100%" stop-color="#0B1B3D" />
+    </linearGradient>
+
+    <linearGradient id="chArrowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1D4ED8" />
+      <stop offset="50%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#38BDF8" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(15, 12)">
+    {/* UPPER-LEFT SHIELD FRAME & ROOF */}
+    <path
+      d="M 44 146
+         L 44 62
+         L 110 38
+         L 142 56
+         L 142 68
+         L 110 50
+         L 58 68
+         L 58 136
+         Z"
+      fill="url(#chLogoGrad)"
+    />
+
+    {/* ASCENDING STAIRS */}
+    <path d="M 58 136 L 76 136 L 76 122 L 58 122 Z" fill="url(#chLogoGrad)" />
+    <path d="M 76 122 L 96 122 L 96 108 L 76 108 Z" fill="url(#chLogoGrad)" />
+    <path d="M 96 108 L 116 108 L 116 94 L 96 94 Z" fill="url(#chLogoGrad)" />
+    <path d="M 116 94 L 132 94 L 132 84 L 116 84 Z" fill="url(#chLogoGrad)" />
+    <path d="M 58 136 L 126 136 L 112 152 L 44 146 Z" fill="url(#chLogoGrad)" />
+
+    {/* SPEEDOMETER / CREDIT SCORE ARC GAUGE */}
+    <path
+      d="M 68 102 C 68 80, 84 66, 102 66"
+      stroke="url(#chArrowGrad)"
+      stroke-width="5.5"
+      stroke-linecap="round"
+    />
+    <path d="M 107 65.5 C 112 66, 116 67.5, 120 70" stroke="url(#chArrowGrad)" stroke-width="5.5" stroke-linecap="round" />
+    <path d="M 124 73 C 127 75.5, 129.5 78.5, 131 82" stroke="url(#chArrowGrad)" stroke-width="5.5" stroke-linecap="round" />
+    <path d="M 133 86 C 134.5 89.5, 135 93, 135 96.5" stroke="url(#chArrowGrad)" stroke-width="5.5" stroke-linecap="round" />
+
+    {/* DYNAMIC BREAKTHROUGH ARROW */}
+    <path
+      d="M 92 168
+         L 154 78
+         L 142 70
+         L 182 50
+         L 174 92
+         L 162 84
+         L 106 168
+         Z"
+      fill="url(#chArrowGrad)"
+    />
+
+    {/* LOWER-RIGHT SHIELD WING */}
+    <path
+      d="M 110 188
+         C 134 176, 168 144, 168 98
+         L 156 102
+         C 156 132, 132 156, 116 168
+         Z"
+      fill="url(#chLogoGrad)"
+    />
+
+    <path
+      d="M 110 188
+         C 106 186, 92 176, 88 170
+         L 98 162
+         C 102 166, 108 174, 110 188
+         Z"
+      fill="url(#chLogoGrad)"
+    />
+
+    <!-- CLEAN GEOMETRIC ACCENTS (Zero AI stars) -->
+    <circle cx="166" cy="46" r="3.5" fill="#38BDF8" />
+    <circle cx="152" cy="62" r="2.5" fill="#60A5FA" opacity="0.8" />
+  </g>
+
+  {/* BOLD GEOMETRIC CHIDONIQ WORDMARK */}
+  <text
+    x="120"
+    y="245"
+    text-anchor="middle"
+    fill="#0B1B3D"
+    font-family="'Plus Jakarta Sans', -apple-system, sans-serif"
+    font-size="28"
+    font-weight="900"
+    letter-spacing="2.5"
+  >
+    CHIDONIQ
+  </text>
+</svg>

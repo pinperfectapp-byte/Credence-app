@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CredenceLogo } from './CredenceLogo';
+import { ChidoniqLogo } from './ChidoniqLogo';
 import { LegalModalTab } from './FooterLegalModal';
 import { 
   ArrowRight, 
@@ -62,13 +62,13 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         {/* Top Header with Brand & Skip Button */}
         <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md shrink-0">
           <div className="flex items-center gap-2">
-            <CredenceLogo size={30} animated={false} />
+            <ChidoniqLogo size={30} animated={false} />
             <div>
-              <span className="font-black text-slate-900 dark:text-white text-sm tracking-tight block">
-                Credence
+              <span className="font-black text-slate-900 dark:text-white text-sm tracking-tight block uppercase">
+                CHIDONIQ
               </span>
               <span className="text-[10px] font-mono-numeric font-bold text-emerald-600 dark:text-emerald-400 block -mt-0.5">
-                Instant Credit Problem Solver
+                Instant Credit & Financial Problem Solver
               </span>
             </div>
           </div>
@@ -239,7 +239,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
           <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono-numeric font-extrabold uppercase text-slate-500 dark:text-slate-400">
-                Current FICO® Score Baseline
+                Current Credit Score Baseline
               </span>
               <span className="text-xs font-mono-numeric font-black text-slate-900 dark:text-white">
                 {initialScoreInput} / 850

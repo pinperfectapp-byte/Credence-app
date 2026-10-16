@@ -152,32 +152,9 @@ export const BureauDisputeHubTab: React.FC<BureauDisputeHubTabProps> = ({
             <div className="flex items-center justify-center gap-2 mt-4 flex-wrap">
               <button
                 onClick={() => setShowAddModal(true)}
-                className="px-3.5 py-1.5 text-xs font-semibold text-white bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-white bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
               >
-                + Add Custom Account
-              </button>
-              <button
-                onClick={() => {
-                  const sample: DerogatoryItem = {
-                    id: `sample_col_${Date.now()}`,
-                    accountName: 'Apex Medical Collections',
-                    originalCreditor: 'Mercy Regional Hospital',
-                    accountNumberMasked: '...9421',
-                    itemType: 'medical_debt',
-                    balance: 480,
-                    dateReported: '2024-03-12',
-                    bureausReported: ['Experian', 'Equifax', 'TransUnion'],
-                    status: 'Reported',
-                    isEligibleFor609: true,
-                    notes: 'Unverified medical billing collection under $500 eligible for CFPB removal.',
-                  };
-                  onAddDerogatoryItem(sample);
-                  setSelectedItemId(sample.id);
-                  handleSelectItem(sample);
-                }}
-                className="px-3.5 py-1.5 text-xs font-semibold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-lg transition-colors cursor-pointer border border-emerald-300"
-              >
-                + Load Sample Collection to Dispute
+                + Add Account to Audit
               </button>
             </div>
           </div>

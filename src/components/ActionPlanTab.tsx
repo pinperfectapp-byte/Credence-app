@@ -53,7 +53,7 @@ export const ActionPlanTab: React.FC<ActionPlanTabProps> = ({ profile, onNavigat
           estimatedPoints: 35,
           category: 'Building',
           timeframe: 'Week 1',
-          description: 'Open a no-annual-fee secured card (Discover it Secured / Capital One Platinum) or credit builder line to begin generating on-time monthly payment data.',
+          description: 'Open a no-annual-fee secured card or credit builder line to begin generating on-time monthly payment data.',
           completed: profile.cards.length > 0,
           impact: 'Critical',
         },
@@ -84,7 +84,7 @@ export const ActionPlanTab: React.FC<ActionPlanTabProps> = ({ profile, onNavigat
       estimatedPoints: 15,
       category: 'Utilization',
       timeframe: 'Days 15–20',
-      description: 'Log into issuer apps (Amex, Discover, Apple Card) and submit soft-inquiry limit increases. Expanding total limit drops utilization automatically.',
+      description: 'Log into card issuer apps and submit soft-inquiry limit increases. Expanding total limit drops utilization automatically.',
       completed: false,
       impact: 'High',
     },
@@ -117,34 +117,34 @@ export const ActionPlanTab: React.FC<ActionPlanTabProps> = ({ profile, onNavigat
     .reduce((sum, i) => sum + i.estimatedPoints, 0);
 
   return (
-    <div className="space-y-8 pb-8">
-      {/* 1. Header Banner */}
-      <div className="bg-slate-900 text-white rounded-xl p-6 shadow-sm border border-slate-800">
+    <div className="space-y-8 pb-8 font-sans">
+      {/* 1. Header Banner (Dashboard Colors) */}
+      <div className="bg-gradient-to-r from-[#0f244c] via-[#143166] to-[#0f244c] dark:from-[#0C182F] dark:via-[#102244] dark:to-[#0C182F] text-white rounded-[20px] p-6 border border-blue-500/30 dark:border-[rgba(56,120,210,0.3)] shadow-lg shadow-black/20">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#38BDF8]">
+              <TrendingUp className="w-4 h-4 text-[#38BDF8]" />
               <span>Personalized Tactical Execution Plan</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
               30-Day Score Elevation Blueprint
             </h2>
-            <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-xs text-blue-200/90 max-w-2xl leading-relaxed">
               Step-by-step checklist of high-impact maneuvers to execute during your upcoming credit reporting cycle. Follow this sequence to maximize point yield.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/80 self-start sm:self-auto shrink-0 font-mono-numeric">
+          <div className="flex items-center gap-4 bg-[#081326]/70 p-3.5 rounded-2xl border border-[rgba(56,120,210,0.25)] self-start sm:self-auto shrink-0 font-mono-numeric">
             <div>
-              <span className="text-[11px] text-slate-400 block uppercase">Completed</span>
+              <span className="text-[11px] text-[#8FA0C0] block uppercase">Completed</span>
               <span className="text-xl font-bold text-white">
                 {completedCount} / {items.length}
               </span>
             </div>
-            <div className="border-l border-slate-700 pl-4">
-              <span className="text-[11px] text-slate-400 block uppercase">Points Yield</span>
+            <div className="border-l border-[rgba(56,120,210,0.2)] pl-4">
+              <span className="text-[11px] text-[#8FA0C0] block uppercase">Points Yield</span>
               <span className="text-xl font-bold text-emerald-400">
-                +{earnedPoints} <span className="text-xs font-normal text-slate-400">/ +{totalPointsPotential}</span>
+                +{earnedPoints} <span className="text-xs font-normal text-[#8FA0C0]">/ +{totalPointsPotential}</span>
               </span>
             </div>
           </div>
@@ -152,26 +152,26 @@ export const ActionPlanTab: React.FC<ActionPlanTabProps> = ({ profile, onNavigat
       </div>
 
       {/* 2. Checklist Items */}
-      <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4 transition-colors">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+      <section className="bg-white dark:bg-[#0C182F] border border-slate-100 dark:border-[rgba(56,120,210,0.22)] rounded-[20px] p-6 shadow-md space-y-4 transition-colors">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-[rgba(56,120,210,0.18)]">
           <h3 className="text-base font-bold text-slate-900 dark:text-white">
             Action Items ({items.length})
           </h3>
-          <span className="text-xs text-slate-500 dark:text-slate-400">
+          <span className="text-xs text-slate-500 dark:text-[#8FA0C0]">
             Check off steps as you execute them
           </span>
         </div>
 
-        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+        <div className="divide-y divide-slate-100 dark:divide-[rgba(56,120,210,0.12)]">
           {items.map((item) => (
             <div
               key={item.id}
               onClick={() => toggleItem(item.id)}
-              className="py-4 flex items-start gap-4 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 rounded-lg px-2 transition-colors"
+              className="py-4 flex items-start gap-4 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-[#102244]/40 rounded-xl px-2 transition-colors"
             >
               <button
                 type="button"
-                className="mt-0.5 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                className="mt-0.5 text-slate-400 dark:text-slate-500 hover:text-[#2563EB] dark:hover:text-[#38BDF8] transition-colors"
               >
                 {item.completed ? (
                   <CheckSquare className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />

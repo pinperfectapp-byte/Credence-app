@@ -21,10 +21,14 @@ import {
   Trophy,
   Award,
   TrendingUp,
-  CheckCircle2
+  CheckCircle2,
+  RefreshCw,
+  LogOut,
+  KeyRound
 } from 'lucide-react';
 import { LegalModalTab } from './FooterLegalModal';
 import { DownbaseFooter } from './DownbaseFooter';
+import { useSupabaseAuth } from '../context/SupabaseAuthContext';
 
 interface SettingsPageProps {
   settings: AppSettings;
@@ -33,7 +37,10 @@ interface SettingsPageProps {
   onResetData: () => void;
   onImportBackup?: (importedProfile: CreditProfile, importedSettings: AppSettings) => void;
   onOpenLegal?: (tab: LegalModalTab) => void;
+  onNavigateTab?: (tabId: string) => void;
   onReopenWelcome?: () => void;
+  onReplaySplash?: () => void;
+  onOpenAuthModal?: () => void;
 }
 
 export const SettingsPage: React.FC<SettingsPageProps> = ({
@@ -43,13 +50,44 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   onResetData,
   onImportBackup,
   onOpenLegal,
+  onNavigateTab,
   onReopenWelcome,
+  onReplaySplash,
+  onOpenAuthModal,
 }) => {
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [importSuccess, setImportSuccess] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Supabase Auth & Cloud Sync
+  const {
+    user,
+    lastSyncTime,
+    isSyncing,
+    syncToCloud,
+    restoreFromCloud,
+    signOut,
+    isConfigured,
+    credentials,
+  } = useSupabaseAuth();
+  const [supabaseMsg, setSupabaseMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleCloudSync = async () => {
+    const res = await syncToCloud(profile);
+    setSupabaseMsg({ type: res.success ? 'success' : 'error', text: res.message });
+    setTimeout(() => setSupabaseMsg(null), 4000);
+  };
+
+  const handleCloudRestore = async () => {
+    const res = await restoreFromCloud();
+    if (res.profile && onImportBackup) {
+      onImportBackup(res.profile, settings);
+    }
+    setSupabaseMsg({ type: res.profile ? 'success' : 'error', text: res.message });
+    setTimeout(() => setSupabaseMsg(null), 4000);
+  };
 
   const handleToggleTheme = (theme: ThemeMode) => {
     onUpdateSettings({ ...settings, theme });
@@ -142,7 +180,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   const handleDownloadBackup = () => {
     const today = new Date().toISOString().split('T')[0];
     const backupPayload = {
-      app: 'Credence',
+      app: 'CHIDONIQ',
       version: '2.0.0',
       exportedAt: new Date().toISOString(),
       profile,
@@ -155,7 +193,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
     const url = URL.createObjectURL(dataBlob);
     const downloadAnchor = document.createElement('a');
     downloadAnchor.href = url;
-    downloadAnchor.download = `credence_full_backup_${today}.json`;
+    downloadAnchor.download = `chidoniq_full_backup_${today}.json`;
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -187,7 +225,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           setTimeout(() => setImportSuccess(false), 3500);
         }
       } catch (err: any) {
-        setImportError('Failed to parse backup JSON. Please ensure it is a valid Credence backup file.');
+        setImportError('Failed to parse backup JSON. Please ensure it is a valid CHIDONIQ backup file.');
         setTimeout(() => setImportError(null), 4000);
       }
     };
@@ -227,7 +265,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                 Dream Credit Score Target &amp; Gap Visualizer
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Track how close you are to your aspirational FICO® score milestone.
+                Track how close you are to your aspirational credit score milestone.
               </p>
             </div>
           </div>
@@ -516,7 +554,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                   <span className={`font-mono-numeric font-bold text-slate-900 dark:text-white px-2 py-0.5 rounded-sm bg-slate-200 dark:bg-slate-700 ${
                     settings.privacyMode ? 'privacy-masked' : ''
                   }`}>
-                    FICO® 742 · $14,250
+                    Score 742 · $14,250
                   </span>
                 </div>
               </div>
@@ -597,6 +635,126 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
         </div>
       </section>
 
+      {/* 5.5. Encrypted Vault Sync & Member Account */}
+      <section className="bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 shadow-xs space-y-4 transition-colors">
+        <div className="flex items-center justify-between pb-3 border-b border-neutral-200 dark:border-neutral-800">
+          <div className="flex items-center gap-2">
+            <Database className="w-5 h-5 text-sky-600 dark:text-sky-400" />
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm font-bold text-black dark:text-white">
+                  Encrypted Vault Sync &amp; Member Account
+                </h2>
+                {user ? (
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800 px-2 py-0.5 rounded-full font-semibold">
+                    Vault Active
+                  </span>
+                ) : (
+                  <span className="text-[10px] bg-neutral-100 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 px-2 py-0.5 rounded-full font-semibold">
+                    Private Local Storage
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                Email/Password authentication &amp; encrypted sovereign backup for your credit scores and budgets.
+              </p>
+            </div>
+          </div>
+
+          {onOpenAuthModal && (
+            <button
+              type="button"
+              onClick={onOpenAuthModal}
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition-all cursor-pointer flex items-center gap-1.5 shadow-xs"
+            >
+              <KeyRound className="w-3.5 h-3.5" />
+              <span>{user ? 'Account' : 'Sign In'}</span>
+            </button>
+          )}
+        </div>
+
+        {supabaseMsg && (
+          <div className={`p-3 rounded-lg text-xs flex items-center gap-2 ${
+            supabaseMsg.type === 'success' 
+              ? 'bg-emerald-50 text-emerald-800 border border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-800' 
+              : 'bg-rose-50 text-rose-800 border border-rose-300 dark:bg-rose-950/60 dark:text-rose-200 dark:border-rose-800'
+          }`}>
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <span>{supabaseMsg.text}</span>
+          </div>
+        )}
+
+        {user ? (
+          <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold text-sm shadow-xs">
+                  {user.email ? user.email[0].toUpperCase() : 'U'}
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-black dark:text-white">
+                    {user.email}
+                  </div>
+                  <div className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    Last Vault Sync: {lastSyncTime ? new Date(lastSyncTime).toLocaleString() : 'Never'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleCloudSync}
+                  disabled={isSyncing}
+                  className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 shadow-xs"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>{isSyncing ? 'Syncing...' : 'Sync to Vault'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCloudRestore}
+                  disabled={isSyncing}
+                  className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-black dark:text-white flex items-center gap-1.5 border border-neutral-300 dark:border-neutral-700 transition-colors cursor-pointer disabled:opacity-50"
+                >
+                  <Database className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
+                  <span>Restore</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={signOut}
+                  className="px-2.5 py-1.5 rounded-xl text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <span className="font-bold text-black dark:text-white text-xs block">
+                Connect with Encrypted Vault Authentication
+              </span>
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                Sign in with your email and password to sync your credit cards, dream score, and Downbase budget envelopes to your encrypted personal vault.
+              </p>
+            </div>
+
+            {onOpenAuthModal && (
+              <button
+                type="button"
+                onClick={onOpenAuthModal}
+                className="px-4 py-2 text-xs font-bold rounded-xl bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition-all cursor-pointer shrink-0 shadow-xs"
+              >
+                Sign In / Sign Up
+              </button>
+            )}
+          </div>
+        )}
+      </section>
+
       {/* 6. Download Backup & Restore */}
       <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4 transition-colors">
         <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
@@ -660,7 +818,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                 Restore from Backup (JSON)
               </span>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                Load a previously saved Credence JSON backup file to instantly restore your accounts, scores, and settings.
+                Load a previously saved CHIDONIQ JSON backup file to instantly restore your accounts, scores, and settings.
               </p>
             </div>
 
@@ -710,7 +868,16 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              {onReplaySplash && (
+                <button
+                  type="button"
+                  onClick={onReplaySplash}
+                  className="text-xs text-blue-600 dark:text-blue-400 hover:underline cursor-pointer font-bold"
+                >
+                  Replay 5s App Logo Splash
+                </button>
+              )}
               {onReopenWelcome && (
                 <button
                   type="button"
@@ -736,6 +903,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       {onOpenLegal && (
         <DownbaseFooter
           onOpenLegal={onOpenLegal}
+          onNavigateTab={onNavigateTab}
           showThreeBadges={true}
         />
       )}
