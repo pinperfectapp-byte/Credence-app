@@ -149,9 +149,45 @@
             }
           }
         ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Improve Your Credit Score to 750+ with CHIDONIQ",
+        "description": "Follow the proven 4-step financial optimization method on CHIDONIQ to eliminate utilization penalties and boost credit scores.",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Audit 5 Credit Scoring Pillars",
+            "text": "Inspect Payment History, Revolving Utilization, Credit Age, New Inquiries, and Credit Mix on the CHIDONIQ command center.",
+            "url": "https://chidoniq.com.ng/?tab=dashboard"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Apply the AZEO Method",
+            "text": "Time statement closing dates using the AZEO Optimizer to report under 3% aggregate utilization across revolving credit cards.",
+            "url": "https://chidoniq.com.ng/?tab=statement_optimizer"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Eliminate Inaccuracies via FCRA Disputes",
+            "text": "Use the Bureau Dispute Hub to generate statutory 30-day investigation letters under 15 U.S.C. § 1681.",
+            "url": "https://chidoniq.com.ng/?tab=dispute_hub"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Track Money Left and Prevent Late Marks",
+            "text": "Deploy BillGuard and Budget Tracker to safeguard 100% on-time payment records without sharing your SSN.",
+            "url": "https://chidoniq.com.ng/?tab=budget"
+          }
+        ]
       }
     ]
     </script>
+
+    <!-- Google Search Console & Webmaster Verification -->
+    <meta name="google-site-verification" content="google-site-verification-chidoniq" />
+    <meta name="msvalidate.01" content="msvalidate-chidoniq" />
 
     <!-- Additional Google SEO & Geographic Metadata -->
     <meta name="author" content="CHIDONIQ" />
@@ -166,14 +202,15 @@
     <script>
       (function() {
         try {
-          var savedSettings = localStorage.getItem('credence_app_settings_v2') || localStorage.getItem('chidoniq_theme');
-          var isDark = true;
+          var savedSettings = localStorage.getItem('chidoniq_app_settings_fresh_v9') || localStorage.getItem('chidoniq_theme');
+          var isDark = false;
           if (savedSettings) {
-            if (savedSettings === 'light') isDark = false;
-            else if (savedSettings === 'dark') isDark = true;
+            if (savedSettings === 'dark') isDark = true;
+            else if (savedSettings === 'light') isDark = false;
             else {
               var parsed = JSON.parse(savedSettings);
-              if (parsed && parsed.theme === 'light') isDark = false;
+              if (parsed && parsed.theme === 'dark') isDark = true;
+              else if (parsed && parsed.theme === 'light') isDark = false;
             }
           }
           if (isDark) {

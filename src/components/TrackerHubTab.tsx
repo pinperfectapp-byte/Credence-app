@@ -76,6 +76,7 @@ export const TrackerHubTab: React.FC<TrackerHubTabProps> = ({
     if (onNavigateTab) {
       onNavigateTab(featureId);
     } else {
+      window.dispatchEvent(new CustomEvent('chidoniq-navigate-tab', { detail: featureId }));
       window.dispatchEvent(new CustomEvent('credence-navigate-tab', { detail: featureId }));
     }
   };
@@ -400,47 +401,47 @@ export const TrackerHubTab: React.FC<TrackerHubTabProps> = ({
   });
 
   return (
-    <div className="min-h-full bg-[#070D1E] text-white p-3 sm:p-4 pb-28 select-none font-sans">
+    <div className="min-h-full bg-white text-black dark:bg-black dark:text-white p-3 sm:p-4 pb-28 select-none font-sans transition-colors">
       <div className="w-full max-w-md mx-auto space-y-4">
 
         {/* HERO BANNER: TRACKER HUB */}
-        <div className="bg-gradient-to-r from-[#0f244c] via-[#143166] to-[#0f244c] dark:from-[#0C182F] dark:via-[#102244] dark:to-[#0C182F] border border-blue-500/30 dark:border-[rgba(56,120,210,0.3)] rounded-[20px] p-5 shadow-lg shadow-black/20 text-white relative overflow-hidden">
+        <div className="bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5 shadow-sm text-black dark:text-white relative overflow-hidden transition-colors">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2.5">
-              <div className="p-2.5 rounded-2xl bg-[#102244] border border-[rgba(56,120,210,0.3)] text-[#38BDF8] shadow-inner">
+              <div className="p-2.5 rounded-2xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-blue-600 dark:text-sky-400">
                 <TrackerIcon className="w-6 h-6 stroke-[2.2]" />
               </div>
               <div>
-                <span className="text-[10px] font-mono-numeric font-black uppercase tracking-widest text-[#38BDF8]">
+                <span className="text-[10px] font-mono-numeric font-black uppercase tracking-widest text-blue-600 dark:text-sky-400">
                   Sovereign Engine · 17 Inbuilt Trackers
                 </span>
-                <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-black text-black dark:text-white tracking-tight">
                   Tracker Hub
                 </h1>
               </div>
             </div>
-            <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 text-[10px] font-black font-mono-numeric border border-emerald-500/30">
+            <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-[10px] font-black font-mono-numeric border border-emerald-200 dark:border-emerald-800">
               100% PRIVATE
             </span>
           </div>
 
-          <p className="text-xs text-blue-200/90 leading-relaxed mt-1">
+          <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed mt-1">
             All 17 Sovereign Financial Trackers listed vertically below. Each tool has its own dedicated page with pure local persistence and zero cloud tracking.
           </p>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-[rgba(56,120,210,0.25)] text-center font-mono-numeric">
-            <div className="p-2 rounded-xl bg-[#081326]/60 border border-[rgba(56,120,210,0.2)]">
-              <span className="text-[9px] text-[#8FA0C0] block uppercase font-bold">Inbuilt Tools</span>
-              <span className="text-sm font-black text-white">17 Engines</span>
+          <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800 text-center font-mono-numeric">
+            <div className="p-2 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <span className="text-[9px] text-neutral-500 dark:text-neutral-400 block uppercase font-bold">Inbuilt Tools</span>
+              <span className="text-sm font-black text-black dark:text-white">17 Engines</span>
             </div>
-            <div className="p-2 rounded-xl bg-[#081326]/60 border border-[rgba(56,120,210,0.2)]">
-              <span className="text-[9px] text-[#8FA0C0] block uppercase font-bold">Downbase</span>
-              <span className="text-sm font-black text-[#38BDF8]">Zero Cloud</span>
+            <div className="p-2 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <span className="text-[9px] text-neutral-500 dark:text-neutral-400 block uppercase font-bold">Downbase</span>
+              <span className="text-sm font-black text-blue-600 dark:text-sky-400">Zero Cloud</span>
             </div>
-            <div className="p-2 rounded-xl bg-[#081326]/60 border border-[rgba(56,120,210,0.2)]">
-              <span className="text-[9px] text-[#8FA0C0] block uppercase font-bold">Telemetry</span>
-              <span className="text-sm font-black text-emerald-400">0% External</span>
+            <div className="p-2 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+              <span className="text-[9px] text-neutral-500 dark:text-neutral-400 block uppercase font-bold">Telemetry</span>
+              <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">0% External</span>
             </div>
           </div>
         </div>
@@ -453,8 +454,8 @@ export const TrackerHubTab: React.FC<TrackerHubTabProps> = ({
               onClick={() => setSelectedFilter(cat)}
               className={`px-3 py-1.5 rounded-xl shrink-0 transition-all cursor-pointer ${
                 selectedFilter === cat
-                  ? 'bg-[#2563EB] text-white shadow-sm font-black'
-                  : 'bg-white dark:bg-[#0C182F] hover:bg-slate-100 dark:hover:bg-[#102244] text-slate-600 dark:text-[#8FA0C0] border border-slate-200 dark:border-[rgba(56,120,210,0.2)]'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs font-black'
+                  : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800'
               }`}
             >
               {cat}
@@ -465,10 +466,10 @@ export const TrackerHubTab: React.FC<TrackerHubTabProps> = ({
         {/* VERTICALLY ARRANGED LIST OF ALL TRACKER FEATURES */}
         <div className="space-y-3 pt-1">
           <div className="flex items-center justify-between px-1">
-            <span className="text-[11px] font-mono-numeric font-bold uppercase tracking-wider text-slate-400">
+            <span className="text-[11px] font-mono-numeric font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
               Available Trackers ({filteredFeatures.length})
             </span>
-            <span className="text-[11px] font-mono-numeric text-slate-500">
+            <span className="text-[11px] font-mono-numeric text-neutral-400">
               Tap any tool to launch
             </span>
           </div>
@@ -477,43 +478,43 @@ export const TrackerHubTab: React.FC<TrackerHubTabProps> = ({
             <div
               key={feature.id}
               onClick={() => handleLaunchFeature(feature.id)}
-              className="bg-[#0C182F] rounded-3xl p-5 shadow-xl border border-[rgba(56,120,210,0.25)] hover:border-[#38BDF8]/50 transition-all cursor-pointer space-y-2.5 text-white feature-interactive-card"
+              className="bg-white dark:bg-black rounded-3xl p-5 shadow-sm border border-neutral-200 dark:border-neutral-800 hover:border-black dark:hover:border-white transition-all cursor-pointer space-y-2.5 text-black dark:text-white feature-interactive-card"
             >
               {/* Header row: Number, Icon, Title, Category */}
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <div className="p-2.5 rounded-xl bg-blue-50 dark:bg-[#102244] text-[#2563EB] dark:text-[#38BDF8] shrink-0 border border-transparent dark:border-[rgba(56,120,210,0.25)]">
+                  <div className="p-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white shrink-0 border border-neutral-200 dark:border-neutral-800">
                     {feature.icon}
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[10px] font-mono-numeric font-bold text-slate-400 dark:text-[#8FA0C0]">
+                      <span className="text-[10px] font-mono-numeric font-bold text-neutral-400 dark:text-neutral-500">
                         #{feature.num}
                       </span>
-                      <h3 className="text-base font-extrabold text-[#111827] dark:text-white leading-tight">
+                      <h3 className="text-base font-extrabold text-black dark:text-white leading-tight">
                         {feature.name}
                       </h3>
                     </div>
-                    <span className="text-[10px] font-semibold text-[#6B7280] dark:text-[#8FA0C0] block mt-0.5">
+                    <span className="text-[10px] font-semibold text-neutral-500 dark:text-neutral-400 block mt-0.5">
                       Downbase: {feature.tableTag}
                     </span>
                   </div>
                 </div>
 
-                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-[#102244] text-[#374151] dark:text-[#38BDF8] border border-transparent dark:border-[rgba(56,120,210,0.2)] shrink-0">
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 shrink-0">
                   {feature.category}
                 </span>
               </div>
 
               {/* Description */}
-              <p className="text-xs text-[#6B7280] dark:text-[#8FA0C0] leading-relaxed font-sans">
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-sans">
                 {feature.desc}
               </p>
 
-              {/* Bottom row: Live Status & Clickable Blue Action Button */}
-              <div className="pt-2 border-t border-slate-100 dark:border-[rgba(56,120,210,0.18)] flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#374151] dark:text-slate-300">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {/* Bottom row: Live Status & Clickable Action Button */}
+              <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 text-[11px] text-neutral-700 dark:text-neutral-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="font-semibold">{feature.getLiveStatus()}</span>
                 </div>
 
@@ -523,7 +524,7 @@ export const TrackerHubTab: React.FC<TrackerHubTabProps> = ({
                     e.stopPropagation();
                     handleLaunchFeature(feature.id);
                   }}
-                  className="px-3 py-1.5 rounded-xl bg-[#2563EB] hover:bg-blue-600 text-white text-xs font-bold transition-all flex items-center gap-1 shadow-xs cursor-pointer active:scale-95"
+                  className="px-3 py-1.5 rounded-xl bg-black text-white dark:bg-white dark:text-black text-xs font-bold transition-all flex items-center gap-1 shadow-xs cursor-pointer active:scale-95"
                 >
                   <span>Open Tracker</span>
                   <ArrowRight className="w-3.5 h-3.5" />

@@ -572,6 +572,12 @@ export function deleteSubscription(id: string): SubscriptionRecord | null {
   return target || null;
 }
 
+export type SubscriptionRow = SubscriptionRecord;
+
+export function cancelSubscriptionRow(id: string): SubscriptionRecord | null {
+  return deleteSubscription(id);
+}
+
 export function clearSubscriptionsTable(): void {
   try {
     localStorage.removeItem(STORAGE_KEY_SUBSCRIPTIONS);
@@ -672,20 +678,54 @@ export function getCompletedChallengesCount(challenges: ChallengeRecord[]): numb
    TABLE 7: Emergency Fund Vault (Feature 7)
    ========================================================================= */
 
-export function getEmergencyVault(): EmergencyFundRecord {
+export interface EmergencyVaultRow extends EmergencyFundRecord {
+  current_balance: number;
+}
+
+export function getEmergencyVault(): EmergencyVaultRow {
   const records = readTable<EmergencyFundRecord>(STORAGE_KEY_EMERGENCY_VAULT);
-  if (records.length > 0) return records[0];
-  return {
+  const rec = records.length > 0 ? records[0] : {
     id: 'vault_primary',
     target_months: 6,
     monthly_essential_expenses: 0,
     current_saved: 0,
     last_updated: getTodayDateString(),
   };
+  return {
+    ...rec,
+    current_balance: rec.current_saved ?? 0,
+  };
 }
 
 export function saveEmergencyVault(data: EmergencyFundRecord): void {
   writeTable(STORAGE_KEY_EMERGENCY_VAULT, [data]);
+}
+
+export function adjustVaultBalance(
+  type: 'deposit' | 'withdrawal',
+  amount: number,
+  _note?: string
+): EmergencyVaultRow {
+  const vault = getEmergencyVault();
+  const current = vault.current_saved ?? 0;
+  const newSaved = type === 'deposit' ? current + amount : Math.max(0, current - amount);
+  vault.current_saved = newSaved;
+  vault.current_balance = newSaved;
+  vault.last_updated = getTodayDateString();
+  saveEmergencyVault(vault);
+  return vault;
+}
+
+export function saveVaultTarget(
+  monthlyEssential: number,
+  targetMonths: number
+): EmergencyVaultRow {
+  const vault = getEmergencyVault();
+  vault.monthly_essential_expenses = Math.max(0, monthlyEssential);
+  vault.target_months = Math.max(1, targetMonths);
+  vault.last_updated = getTodayDateString();
+  saveEmergencyVault(vault);
+  return vault;
 }
 
 /* =========================================================================
@@ -896,9 +936,102 @@ export function deleteCashFlowEvent(id: string): void {
   saveCashFlowEvents(items.filter((c) => c.id !== id));
 }
 
+export type CashFlowEventRow = CashFlowEventRecord & { is_recurring?: boolean };
+
+const STORAGE_KEY_CASH_FLOW_BALANCE = 'chidoniq_downbase_cash_flow_balance_v5';
+
+export function getStartingBalance(): number {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_CASH_FLOW_BALANCE);
+    if (raw !== null) {
+      const val = parseFloat(raw);
+      if (!isNaN(val)) return val;
+    }
+  } catch {}
+  return 2450.0;
+}
+
+export function saveStartingBalance(balance: number): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_CASH_FLOW_BALANCE, balance.toString());
+  } catch {}
+}
+
+export function saveCashFlowEvent(item: Omit<CashFlowEventRecord, 'id'> & { is_recurring?: boolean }): CashFlowEventRecord {
+  return insertCashFlowEvent(item);
+}
+
+export interface CashFlow30DayTimeline {
+  isOverdraftRisk: boolean;
+  lowestBalance: number;
+  totalInflow: number;
+  totalOutflow: number;
+  timelineEvents: {
+    id: string;
+    title: string;
+    amount: number;
+    date: string;
+    type: 'income' | 'bill' | 'transfer';
+    daysAway: number;
+    runningBalanceAfter: number;
+  }[];
+}
+
+export function calculate30DayCashFlow(): CashFlow30DayTimeline {
+  const events = getCashFlowEvents();
+  const startingBalance = getStartingBalance();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const sorted = [...events].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  
+  let running = startingBalance;
+  let lowest = startingBalance;
+  let totalInflow = 0;
+  let totalOutflow = 0;
+
+  const timelineEvents = sorted.map((evt) => {
+    const evtDate = new Date(evt.date + 'T00:00:00');
+    const diffTime = evtDate.getTime() - today.getTime();
+    const daysAway = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+
+    if (evt.type === 'income') {
+      running += evt.amount;
+      totalInflow += evt.amount;
+    } else {
+      running -= Math.abs(evt.amount);
+      totalOutflow += Math.abs(evt.amount);
+    }
+
+    if (running < lowest) {
+      lowest = running;
+    }
+
+    return {
+      id: evt.id,
+      title: evt.title,
+      amount: Math.abs(evt.amount),
+      date: evt.date,
+      type: evt.type,
+      daysAway,
+      runningBalanceAfter: running,
+    };
+  });
+
+  return {
+    isOverdraftRisk: lowest < 0,
+    lowestBalance: lowest,
+    totalInflow,
+    totalOutflow,
+    timelineEvents,
+  };
+}
+
 /* =========================================================================
    TABLE 14: Reward Points & Cashback Vault (Feature 14)
    ========================================================================= */
+
+export type RewardProgramRow = RewardProgramRecord;
 
 export function getRewardPrograms(): RewardProgramRecord[] {
   return readTable<RewardProgramRecord>(STORAGE_KEY_REWARDS);
@@ -921,6 +1054,10 @@ export function insertRewardProgram(item: Omit<RewardProgramRecord, 'id'>): Rewa
   items.push(newItem);
   saveRewardPrograms(items);
   return newItem;
+}
+
+export function saveRewardProgram(item: Omit<RewardProgramRecord, 'id'>): RewardProgramRecord {
+  return insertRewardProgram(item);
 }
 
 export function deleteRewardProgram(id: string): void {

@@ -81,53 +81,54 @@ export const NetWorthTab: React.FC<NetWorthTabProps> = ({
     } else if (onNavigateTab) {
       onNavigateTab('tracker');
     } else {
+      window.dispatchEvent(new CustomEvent('chidoniq-navigate-tab', { detail: 'tracker' }));
       window.dispatchEvent(new CustomEvent('credence-navigate-tab', { detail: 'tracker' }));
     }
   };
 
   return (
-    <div className="min-h-full bg-[#0A1931] text-slate-100 p-3 sm:p-4 pb-28 select-none font-sans">
+    <div className="min-h-full bg-white text-black dark:bg-black dark:text-white p-3 sm:p-4 pb-28 select-none font-sans transition-colors">
       <div className="w-full max-w-md mx-auto space-y-4">
         
         {/* Top Back Row */}
         <div className="flex items-center justify-between pt-1">
           <button
             onClick={handleBack}
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer py-1"
+            className="flex items-center gap-1.5 text-xs font-semibold text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors cursor-pointer py-1"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Tracker Hub</span>
           </button>
-          <span className="text-[10px] font-mono-numeric font-bold text-sky-400 uppercase tracking-widest">
+          <span className="text-[10px] font-mono-numeric font-bold text-blue-600 dark:text-sky-400 uppercase tracking-widest">
             Wealth Ledger
           </span>
         </div>
 
         {/* Header Hero Banner */}
-        <div className="bg-gradient-to-br from-slate-900/90 via-[#0A1931] to-sky-950/40 border border-sky-400/20 rounded-3xl p-5 shadow-2xl space-y-3">
+        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5 shadow-sm space-y-3 transition-colors">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-sky-500/10 border border-sky-400/20 text-sky-400">
+              <div className="p-2.5 rounded-2xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-sky-400">
                 <TrendingUp className="w-6 h-6 stroke-[2.2]" />
               </div>
               <div>
-                <span className="text-[10px] font-mono-numeric font-extrabold uppercase tracking-widest text-sky-400">
+                <span className="text-[10px] font-mono-numeric font-extrabold uppercase tracking-widest text-blue-600 dark:text-sky-400">
                   Inbuilt Feature 8 · Downbase Table: Net_Worth
                 </span>
-                <h1 className="text-xl font-black text-white tracking-tight">
+                <h1 className="text-xl font-black text-black dark:text-white tracking-tight">
                   Net Worth Tracker
                 </h1>
               </div>
             </div>
             <button
               onClick={() => setShowAddModal(true)}
-              className="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white text-xs font-black flex items-center gap-1 shadow-lg transition-colors cursor-pointer"
+              className="px-3.5 py-2 rounded-xl bg-black dark:bg-white text-white dark:text-black text-xs font-black flex items-center gap-1 shadow-md transition-all cursor-pointer hover:opacity-90 active:scale-95"
             >
               <Plus className="w-3.5 h-3.5 stroke-[3]" />
               <span>Add Item</span>
             </button>
           </div>
-          <p className="text-xs text-slate-300 leading-relaxed">
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
             The ultimate benchmark of financial freedom. Calculates your true balance sheet by tracking what you own (Assets) minus what you owe (Liabilities).
           </p>
         </div>
@@ -176,28 +177,28 @@ export const NetWorthTab: React.FC<NetWorthTabProps> = ({
         </div>
 
         {/* Assets Section */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-3">
+        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5 space-y-3 transition-colors">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono-numeric">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <h3 className="text-sm font-bold text-black dark:text-white uppercase tracking-wider font-mono-numeric">
                 Assets ({assets.length})
               </h3>
             </div>
-            <span className="text-xs font-mono-numeric font-bold text-emerald-400">
+            <span className="text-xs font-mono-numeric font-bold text-emerald-600 dark:text-emerald-400">
               ${totalAssets.toLocaleString()}
             </span>
           </div>
 
           {assets.length === 0 ? (
-            <div className="py-6 text-center text-xs text-slate-400 space-y-2 border border-dashed border-slate-800 rounded-2xl p-4">
+            <div className="py-6 text-center text-xs text-neutral-500 dark:text-neutral-400 space-y-2 border border-dashed border-neutral-200 dark:border-neutral-800 rounded-2xl p-4">
               <p>No assets recorded yet.</p>
               <button
                 onClick={() => {
                   setFormType('asset');
                   setShowAddModal(true);
                 }}
-                className="px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-bold transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 text-xs font-bold transition-colors cursor-pointer"
               >
                 + Add Checking / Savings / 401k
               </button>
@@ -207,17 +208,17 @@ export const NetWorthTab: React.FC<NetWorthTabProps> = ({
               {assets.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 flex items-center justify-between text-xs"
+                  className="p-3 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700/60 flex items-center justify-between text-xs"
                 >
                   <div>
-                    <span className="font-bold text-white block">{item.name}</span>
-                    <span className="text-[10px] text-slate-400 font-sans">{item.category}</span>
+                    <span className="font-bold text-black dark:text-white block">{item.name}</span>
+                    <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-sans">{item.category}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-black text-emerald-400">+${item.value.toLocaleString()}</span>
+                    <span className="font-black text-emerald-600 dark:text-emerald-400">+${item.value.toLocaleString()}</span>
                     <button
                       onClick={() => handleDeleteItem(item.id)}
-                      className="text-slate-500 hover:text-rose-400 cursor-pointer p-1"
+                      className="text-neutral-400 hover:text-rose-500 cursor-pointer p-1"
                       title="Delete"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -230,28 +231,28 @@ export const NetWorthTab: React.FC<NetWorthTabProps> = ({
         </div>
 
         {/* Liabilities Section */}
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-3">
+        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-5 space-y-3 transition-colors">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono-numeric">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+              <h3 className="text-sm font-bold text-black dark:text-white uppercase tracking-wider font-mono-numeric">
                 Liabilities &amp; Debts ({liabilities.length})
               </h3>
             </div>
-            <span className="text-xs font-mono-numeric font-bold text-rose-400">
+            <span className="text-xs font-mono-numeric font-bold text-rose-600 dark:text-rose-400">
               ${totalLiabilities.toLocaleString()}
             </span>
           </div>
 
           {liabilities.length === 0 ? (
-            <div className="py-6 text-center text-xs text-slate-400 space-y-2 border border-dashed border-slate-800 rounded-2xl p-4">
+            <div className="py-6 text-center text-xs text-neutral-500 dark:text-neutral-400 space-y-2 border border-dashed border-neutral-200 dark:border-neutral-800 rounded-2xl p-4">
               <p>No liabilities or debts recorded.</p>
               <button
                 onClick={() => {
                   setFormType('liability');
                   setShowAddModal(true);
                 }}
-                className="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-bold transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 text-xs font-bold transition-colors cursor-pointer"
               >
                 + Add Card Balance / Loan
               </button>
@@ -261,17 +262,17 @@ export const NetWorthTab: React.FC<NetWorthTabProps> = ({
               {liabilities.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 flex items-center justify-between text-xs"
+                  className="p-3 rounded-2xl bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700/60 flex items-center justify-between text-xs"
                 >
                   <div>
-                    <span className="font-bold text-white block">{item.name}</span>
-                    <span className="text-[10px] text-slate-400 font-sans">{item.category}</span>
+                    <span className="font-bold text-black dark:text-white block">{item.name}</span>
+                    <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-sans">{item.category}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-black text-rose-400">-${item.value.toLocaleString()}</span>
+                    <span className="font-black text-rose-600 dark:text-rose-400">-${item.value.toLocaleString()}</span>
                     <button
                       onClick={() => handleDeleteItem(item.id)}
-                      className="text-slate-500 hover:text-rose-400 cursor-pointer p-1"
+                      className="text-neutral-400 hover:text-rose-500 cursor-pointer p-1"
                       title="Delete"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -285,13 +286,13 @@ export const NetWorthTab: React.FC<NetWorthTabProps> = ({
 
         {/* Modal: Add Net Worth Item */}
         {showAddModal && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-3">
-            <div className="w-full max-w-sm bg-white text-slate-900 rounded-3xl p-5 shadow-2xl border border-slate-100">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-black">Add Balance Sheet Item</h3>
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 animate-pop-in">
+            <div className="w-full max-w-sm bg-white dark:bg-neutral-900 text-black dark:text-white rounded-3xl p-5 shadow-2xl border border-neutral-200 dark:border-neutral-800">
+              <div className="flex items-center justify-between mb-3 border-b border-neutral-200 dark:border-neutral-800 pb-2">
+                <h3 className="text-base font-black text-black dark:text-white">Add Balance Sheet Item</h3>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+                  className="text-neutral-400 hover:text-black dark:hover:text-white p-1 cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>

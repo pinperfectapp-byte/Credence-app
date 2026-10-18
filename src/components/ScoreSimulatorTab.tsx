@@ -124,21 +124,21 @@ export const ScoreSimulatorTab: React.FC<ScoreSimulatorTabProps> = ({ profile })
       </div>
 
       {/* 2. Side-by-side Score Projection Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-900 text-white rounded-xl p-6 shadow-sm border border-slate-800">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white dark:bg-neutral-900 text-black dark:text-white rounded-2xl p-6 shadow-xs border border-neutral-200 dark:border-neutral-800 transition-colors">
         {/* Current Score */}
-        <div className="flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-4">
-          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+        <div className="flex flex-col justify-between border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-800 pb-4 md:pb-0 md:pr-4">
+          <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
             Current Score
           </span>
           <div className="my-2">
-            <span className="text-4xl sm:text-5xl font-extrabold font-mono-numeric text-white">
+            <span className="text-4xl sm:text-5xl font-extrabold font-mono-numeric text-black dark:text-white">
               {profile.baseScore > 0 ? profile.baseScore : '--'}
             </span>
-            <span className="text-xs text-slate-400 block mt-1">
-              Tier: <strong className="text-slate-200">{currentTierInfo.tier}</strong>
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 block mt-1">
+              Tier: <strong className="text-black dark:text-neutral-200">{currentTierInfo.tier}</strong>
             </span>
           </div>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-neutral-400">
             Based on active consumer report
           </span>
         </div>

@@ -11,7 +11,9 @@ import {
   Sun,
   Moon,
   KeyRound,
-  Shield
+  Shield,
+  Share2,
+  Check
 } from 'lucide-react';
 import { ChidoniqLogo } from './ChidoniqLogo';
 
@@ -45,6 +47,30 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleTheme,
 }) => {
   const isDark = theme === 'dark';
+  const [copiedShare, setCopiedShare] = React.useState(false);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'CHIDONIQ - Free Credit Score & Budget Tracker USA',
+      text: 'Track your 742 credit score, $1,250 money left, bills, debt payoff, and subscriptions 100% privately with zero SSN on CHIDONIQ!',
+      url: 'https://chidoniq.com.ng',
+    };
+    try {
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText('https://chidoniq.com.ng');
+        setCopiedShare(true);
+        setTimeout(() => setCopiedShare(false), 2500);
+      }
+    } catch {
+      try {
+        await navigator.clipboard.writeText('https://chidoniq.com.ng');
+        setCopiedShare(true);
+        setTimeout(() => setCopiedShare(false), 2500);
+      } catch {}
+    }
+  };
 
   // Screen 2: Budget Tracker header
   if (currentTab === 'budget') {
@@ -261,6 +287,21 @@ export const Header: React.FC<HeaderProps> = ({
             {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-neutral-800" />}
           </button>
         )}
+
+        {/* Viral Share Button: chidoniq.com.ng */}
+        <button
+          type="button"
+          onClick={handleShare}
+          className="p-1.5 rounded-xl text-neutral-700 hover:text-black hover:bg-neutral-100 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-neutral-900 transition-all cursor-pointer border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800"
+          title={copiedShare ? 'Link Copied: chidoniq.com.ng' : 'Share CHIDONIQ (chidoniq.com.ng)'}
+          aria-label="Share CHIDONIQ"
+        >
+          {copiedShare ? (
+            <Check className="w-4 h-4 text-emerald-500" />
+          ) : (
+            <Share2 className="w-4 h-4" />
+          )}
+        </button>
 
         {/* Encrypted Vault Account Button */}
         {onOpenAuth && (

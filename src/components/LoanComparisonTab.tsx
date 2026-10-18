@@ -137,23 +137,23 @@ export const LoanComparisonTab: React.FC = () => {
     <div className="w-full max-w-full overflow-x-hidden space-y-6 font-sans select-none pb-8">
       
       {/* Title & Header Banner */}
-      <div className="bg-slate-900 text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-md space-y-3">
+      <div className="bg-white dark:bg-neutral-900 text-black dark:text-white rounded-3xl p-5 sm:p-6 border border-neutral-200 dark:border-neutral-800 shadow-xs space-y-3 transition-colors">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-emerald-500 text-slate-950 font-black">
             <Building2 className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div>
-            <span className="text-[10px] font-mono-numeric font-black uppercase tracking-wider text-emerald-400 block">
+            <span className="text-[10px] font-mono-numeric font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block">
               Feature 4 · Personal Loans Engine
             </span>
-            <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-black text-black dark:text-white tracking-tight">
               Personal Loan Comparison
             </h1>
           </div>
         </div>
 
-        <p className="text-xs text-slate-300 font-semibold leading-relaxed">
-          Consolidate high-interest credit card balances into a fixed-rate loan. Compare <strong className="text-white">top US lenders</strong> and calculate exact dollar interest savings.
+        <p className="text-xs text-neutral-600 dark:text-neutral-400 font-semibold leading-relaxed">
+          Consolidate high-interest credit card balances into a fixed-rate loan. Compare <strong className="text-black dark:text-white">top US lenders</strong> and calculate exact dollar interest savings.
         </p>
       </div>
 

@@ -67,7 +67,7 @@ const WELCOME_STORAGE_KEY = 'chidoniq_welcome_dismissed_v9_pro';
 const AUTH_DISMISSED_KEY = 'chidoniq_auth_dismissed_v1';
 
 const DEFAULT_SETTINGS: AppSettings = {
-  theme: 'dark',
+  theme: 'light',
   defaultBureau: 'all',
   statementWarningDays: 3,
   privacyMode: false,
@@ -880,7 +880,7 @@ export default function App() {
           {/* Inbuilt Feature 7: Emergency Fund Vault (Table: Emergency_Vault) */}
           {currentTab === 'emergency_vault' && (
             <EmergencyVaultTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -888,7 +888,7 @@ export default function App() {
           {/* Inbuilt Feature 8: Net Worth Ledger (Table: Net_Worth) */}
           {currentTab === 'net_worth' && (
             <NetWorthTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -896,7 +896,7 @@ export default function App() {
           {/* Inbuilt Feature 9: Credit Inquiry Shield (Table: Credit_Inquiries) */}
           {currentTab === 'inquiries_tracker' && (
             <InquiriesShieldTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -904,7 +904,7 @@ export default function App() {
           {/* Inbuilt Feature 10: Multi-Vault Savings Goals (Table: Savings_Goals) */}
           {currentTab === 'savings_goals' && (
             <SavingsGoalsTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -912,7 +912,7 @@ export default function App() {
           {/* Inbuilt Feature 11: FCRA 30-Day Dispute Clock (Table: Dispute_Cases) */}
           {currentTab === 'dispute_tracker' && (
             <DisputeClockTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -920,7 +920,7 @@ export default function App() {
           {/* Inbuilt Feature 12: APR Interest Bleed Monitor (Table: Interest_Bleed) */}
           {currentTab === 'interest_bleed' && (
             <InterestBleedTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -928,7 +928,7 @@ export default function App() {
           {/* Inbuilt Feature 13: Cash Flow Forecaster (Table: Cash_Flow) */}
           {currentTab === 'cash_flow' && (
             <CashFlowForecastTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -936,7 +936,7 @@ export default function App() {
           {/* Inbuilt Feature 14: Reward Points & Cashback Vault (Table: Reward_Programs) */}
           {currentTab === 'rewards_tracker' && (
             <RewardsVaultTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -944,7 +944,7 @@ export default function App() {
           {/* Inbuilt Feature 15: No-Spend Days Calendar & Streak (Table: No_Spend_Days) */}
           {currentTab === 'no_spend_tracker' && (
             <NoSpendCalendarTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}
@@ -952,7 +952,7 @@ export default function App() {
           {/* Inbuilt Feature 16: Revolving Utilization Monitor (Revolving Ledger) */}
           {currentTab === 'utilization_tracker' && (
             <UtilizationMonitorTab
-              onNavigateTab={(tab) => handleSelectTab(tab)}
+              onNavigateTab={handleSelectTab}
               onGoBack={handleGoBack}
             />
           )}

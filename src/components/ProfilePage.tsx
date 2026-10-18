@@ -176,17 +176,17 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
   return (
     <div className="space-y-8 pb-8 max-w-4xl mx-auto">
       {/* 1. Header Banner */}
-      <div className="bg-slate-900 text-white rounded-xl p-6 shadow-sm border border-slate-800">
+      <div className="bg-white dark:bg-neutral-900 text-black dark:text-white rounded-2xl p-6 shadow-xs border border-neutral-200 dark:border-neutral-800 transition-colors">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
-              <User className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+              <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Personal Consumer Credit Profile</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">
               Profile &amp; Tradelines Manager
             </h1>
-            <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
               Configure your credit standing, scores, and active revolving card lines. Data is stored solely in your local browser storage.
             </p>
           </div>
@@ -194,9 +194,9 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={handleExportJSON}
-              className="px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-1.5 text-xs font-semibold text-neutral-800 dark:text-neutral-200 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 rounded-xl border border-neutral-200 dark:border-neutral-700 transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5 text-emerald-400" />
+              <Download className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>Export JSON</span>
             </button>
           </div>

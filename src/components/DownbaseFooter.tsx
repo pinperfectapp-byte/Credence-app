@@ -121,11 +121,11 @@ export const DownbaseFooter: React.FC<DownbaseFooterProps> = ({
         </p>
       </div>
 
-      {/* 5. LOCALSTORAGE SOVEREIGNTY & COPYRIGHT */}
+      {/* 5. LOCALSTORAGE SOVEREIGNTY, DOMAIN & COPYRIGHT */}
       <div className="space-y-0.5 text-[10px] text-neutral-500 font-mono-numeric pt-1">
-        <div>CHIDONIQ Sovereign Financial Utility · In-Browser LocalStorage</div>
+        <div>CHIDONIQ Sovereign Financial Utility · <a href="https://chidoniq.com.ng" className="text-blue-600 dark:text-blue-400 hover:underline font-bold">chidoniq.com.ng</a></div>
         <div className="text-[9px] text-neutral-400 font-medium">
-          Support: <a href="mailto:pinperfectapp@gmail.com" className="hover:underline text-neutral-600 dark:text-neutral-300">pinperfectapp@gmail.com</a> · CHIDONIQ © 2026
+          Official Domain: <a href="https://chidoniq.com.ng" className="hover:underline text-neutral-700 dark:text-neutral-300 font-bold">chidoniq.com.ng</a> · Support: <a href="mailto:pinperfectapp@gmail.com" className="hover:underline text-neutral-600 dark:text-neutral-300">pinperfectapp@gmail.com</a> · CHIDONIQ © 2026
         </div>
       </div>
     </footer>

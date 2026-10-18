@@ -20,6 +20,7 @@ import {
 import { CreditProfile } from '../types/credit';
 import { useSupabaseAuth } from '../context/SupabaseAuthContext';
 import { ChidoniqLogo } from './ChidoniqLogo';
+import { validateRealEmail, validateStrongPassword, isGoogleGmail } from '../utils/authValidator';
 
 interface SupabaseAuthModalProps {
   isOpen: boolean;
@@ -77,6 +78,12 @@ export const SupabaseAuthModal: React.FC<SupabaseAuthModalProps> = ({
       return;
     }
 
+    const emailCheck = validateRealEmail(email);
+    if (!emailCheck.valid) {
+      setFeedback({ type: 'error', message: emailCheck.error || 'Please provide a valid authentic email.' });
+      return;
+    }
+
     setActionLoading(true);
     setFeedback(null);
     try {
@@ -84,13 +91,13 @@ export const SupabaseAuthModal: React.FC<SupabaseAuthModalProps> = ({
       if (res.success) {
         setFeedback({ 
           type: 'success', 
-          message: res.error || 'Successfully signed in to your encrypted vault!' 
+          message: 'Welcome back! Signed in to your encrypted vault.' 
         });
         setTimeout(() => {
           onClose();
-        }, 800);
+        }, 600);
       } else {
-        setFeedback({ type: 'error', message: res.error || 'Invalid email or password.' });
+        setFeedback({ type: 'error', message: res.error || 'Invalid credentials. Please verify your password.' });
       }
     } finally {
       setActionLoading(false);
@@ -101,13 +108,22 @@ export const SupabaseAuthModal: React.FC<SupabaseAuthModalProps> = ({
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setFeedback({ type: 'error', message: 'Email and password are required.' });
+      setFeedback({ type: 'error', message: 'Email and strong password are required.' });
       return;
     }
-    if (password.length < 6) {
-      setFeedback({ type: 'error', message: 'Password must be at least 6 characters.' });
+
+    const emailCheck = validateRealEmail(email);
+    if (!emailCheck.valid) {
+      setFeedback({ type: 'error', message: emailCheck.error || 'Please enter a valid authentic email (e.g. name@gmail.com).' });
       return;
     }
+
+    const passCheck = validateStrongPassword(password);
+    if (!passCheck.valid) {
+      setFeedback({ type: 'error', message: passCheck.error || 'Strong password required: minimum 8 characters with letters & numbers.' });
+      return;
+    }
+
     if (password !== confirmPassword) {
       setFeedback({ type: 'error', message: 'Passwords do not match.' });
       return;
@@ -120,11 +136,11 @@ export const SupabaseAuthModal: React.FC<SupabaseAuthModalProps> = ({
       if (res.success) {
         setFeedback({ 
           type: 'success', 
-          message: res.error || 'Account created! Initializing your sovereign vault.' 
+          message: 'Account created! Authenticated immediately without confirmation.' 
         });
         setTimeout(() => {
           onClose();
-        }, 1000);
+        }, 700);
       } else {
         setFeedback({ type: 'error', message: res.error || 'Registration failed.' });
       }
@@ -477,7 +493,7 @@ export const SupabaseAuthModal: React.FC<SupabaseAuthModalProps> = ({
 
                   <div>
                     <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-300 mb-1">
-                      Password * (Min. 6 chars)
+                      Strong Password * (Min. 8 chars, letters &amp; numbers)
                     </label>
                     <div className="relative">
                       <Lock className="w-4 h-4 text-neutral-400 absolute left-3 top-3 pointer-events-none" />

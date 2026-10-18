@@ -238,17 +238,17 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   return (
     <div className="space-y-8 pb-8 max-w-4xl mx-auto">
       {/* 1. Header Banner */}
-      <div className="bg-slate-900 text-white rounded-xl p-6 shadow-sm border border-slate-800">
+      <div className="bg-white dark:bg-neutral-900 text-black dark:text-white rounded-2xl p-6 shadow-xs border border-neutral-200 dark:border-neutral-800 transition-colors">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
-              <Settings className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+              <Settings className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Application Configuration &amp; Financial Targets</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">
               Settings &amp; Dream Score Goal
             </h1>
-            <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
               Define your dream credit score, visualize the point gap with a circular progress gauge, configure privacy shields, and export manual data backups.
             </p>
           </div>

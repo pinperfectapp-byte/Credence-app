@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Mail, 
   Lock, 
@@ -14,10 +14,12 @@ import {
   Sun,
   Moon,
   KeyRound,
-  Shield
+  Check,
+  Sparkles
 } from 'lucide-react';
 import { useSupabaseAuth } from '../context/SupabaseAuthContext';
 import { ChidoniqLogo } from './ChidoniqLogo';
+import { validateRealEmail, validateStrongPassword, getPasswordStrength, isGoogleGmail } from '../utils/authValidator';
 
 interface AuthPageProps {
   onSuccess?: () => void;
@@ -58,13 +60,27 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     if (nextDark) {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
+      document.body.style.backgroundColor = '#000000';
+      document.body.style.color = '#FFFFFF';
       localStorage.setItem('chidoniq_theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
       document.documentElement.classList.add('light');
+      document.body.style.backgroundColor = '#FFFFFF';
+      document.body.style.color = '#000000';
       localStorage.setItem('chidoniq_theme', 'light');
     }
   };
+
+  // Real-time email validation details
+  const isGmail = useMemo(() => isGoogleGmail(email), [email]);
+  const emailCheck = useMemo(() => {
+    if (!email) return null;
+    return validateRealEmail(email);
+  }, [email]);
+
+  // Real-time password strength
+  const passStrength = useMemo(() => getPasswordStrength(password), [password]);
 
   // If already logged in, show authenticated member status and continue button
   if (user) {
@@ -79,8 +95,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             <h1 className="text-xl font-black tracking-tight text-black dark:text-white uppercase font-sans">
               CHIDONIQ Vault Account
             </h1>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400">
-              Authenticated &amp; Encrypted
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
+              Authenticated &amp; Encrypted Sovereign Storage
             </p>
           </div>
 
@@ -95,9 +111,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               <div className="text-xs text-neutral-600 dark:text-neutral-400 font-mono truncate">
                 {user.email}
               </div>
-              <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
+              <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Active Vault Sync
+                Active Vault • Zero Confirmation Needed
               </div>
             </div>
           </div>
@@ -115,7 +131,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             <button
               type="button"
               onClick={signOut}
-              className="w-full py-2.5 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 text-xs font-semibold cursor-pointer transition-colors"
+              className="w-full py-2.5 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 text-xs font-semibold cursor-pointer transition-colors"
             >
               Sign Out &amp; Switch Account
             </button>
@@ -132,6 +148,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       return;
     }
 
+    const emailVal = validateRealEmail(email);
+    if (!emailVal.valid) {
+      setFeedback({ type: 'error', text: emailVal.error || 'Please enter a valid authentic email.' });
+      return;
+    }
+
     setLoading(true);
     setFeedback(null);
     try {
@@ -141,9 +163,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         setTimeout(() => {
           if (onSuccess) onSuccess();
           else onSkip();
-        }, 600);
+        }, 500);
       } else {
-        setFeedback({ type: 'error', text: res.error || 'Invalid email or password.' });
+        setFeedback({ type: 'error', text: res.error || 'Invalid credentials. Please verify your password.' });
       }
     } finally {
       setLoading(false);
@@ -156,12 +178,21 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       setFeedback({ type: 'error', text: 'Email and password are required.' });
       return;
     }
-    if (password.length < 6) {
-      setFeedback({ type: 'error', text: 'Password must be at least 6 characters long.' });
+
+    const emailVal = validateRealEmail(email);
+    if (!emailVal.valid) {
+      setFeedback({ type: 'error', text: emailVal.error || 'Please provide a valid authentic email (e.g. yourname@gmail.com).' });
       return;
     }
+
+    const passVal = validateStrongPassword(password);
+    if (!passVal.valid) {
+      setFeedback({ type: 'error', text: passVal.error || 'Strong password required: minimum 8 characters with letters & numbers.' });
+      return;
+    }
+
     if (password !== confirmPassword) {
-      setFeedback({ type: 'error', text: 'Passwords do not match.' });
+      setFeedback({ type: 'error', text: 'Passwords do not match. Please verify.' });
       return;
     }
 
@@ -170,11 +201,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     try {
       const res = await signUp(email, password, fullName);
       if (res.success) {
-        setFeedback({ type: 'success', text: 'Account created successfully! Loading your vault...' });
+        setFeedback({ type: 'success', text: 'Account created! Authenticated immediately without confirmation.' });
         setTimeout(() => {
           if (onSuccess) onSuccess();
           else onSkip();
-        }, 800);
+        }, 600);
       } else {
         setFeedback({ type: 'error', text: res.error || 'Registration failed. Please try again.' });
       }
@@ -195,7 +226,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     try {
       const res = await resetPassword(email);
       if (res.success) {
-        setFeedback({ type: 'success', text: `Password recovery link sent to ${email}. Please check your inbox.` });
+        setFeedback({ type: 'success', text: `Password recovery verification prepared for ${email}. Check your inbox.` });
       } else {
         setFeedback({ type: 'error', text: res.error || 'Failed to send recovery link.' });
       }
@@ -221,10 +252,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       </div>
 
       {/* Main Auth Card */}
-      <div className="relative w-full max-w-md bg-white dark:bg-black border border-neutral-300 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 animate-pop-in">
+      <div className="relative w-full max-w-md bg-white dark:bg-black border border-neutral-300 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 animate-pop-in">
         
-        {/* Top Header: Logo + App Name + Security Vault Badge */}
-        <div className="text-center space-y-2">
+        {/* Top Header: Logo + App Name + Sovereign Vault Badge */}
+        <div className="text-center space-y-1.5">
           <div className="flex justify-center">
             <ChidoniqLogo size={52} animated={false} />
           </div>
@@ -233,13 +264,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               CHIDONIQ
             </h1>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
-              Sovereign Financial Utility • Credit &amp; Budget Tracker
+              Sovereign Financial Utility • Credit &amp; Budget Command Center
             </p>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-[11px] text-neutral-700 dark:text-neutral-300 font-medium">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold">
             <KeyRound className="w-3.5 h-3.5 text-sky-500" />
-            <span>Encrypted Vault Authentication</span>
+            <span>Encrypted Vault • No Confirmation Wait Needed</span>
           </div>
         </div>
 
@@ -247,17 +278,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         {feedback && (
           <div className={`p-3 rounded-xl border text-xs flex items-start gap-2.5 animate-fade-in ${
             feedback.type === 'success' 
-              ? 'bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/60 dark:border-emerald-500/40 dark:text-emerald-200' 
+              ? 'bg-emerald-50 border-emerald-300 text-emerald-900 dark:bg-emerald-950/60 dark:border-emerald-500/40 dark:text-emerald-200' 
               : feedback.type === 'error'
-              ? 'bg-rose-50 border-rose-300 text-rose-800 dark:bg-rose-950/60 dark:border-rose-500/40 dark:text-rose-200'
-              : 'bg-neutral-100 border-neutral-300 text-neutral-800 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200'
+              ? 'bg-rose-50 border-rose-300 text-rose-900 dark:bg-rose-950/60 dark:border-rose-500/40 dark:text-rose-200'
+              : 'bg-neutral-100 border-neutral-300 text-neutral-900 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200'
           }`}>
             {feedback.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             ) : (
-              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+              <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
             )}
-            <div className="flex-1 leading-relaxed">{feedback.text}</div>
+            <div className="flex-1 leading-relaxed font-medium">{feedback.text}</div>
           </div>
         )}
 
@@ -293,9 +324,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         {mode === 'signin' && (
           <form onSubmit={handleSignIn} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-300 mb-1">
-                Email Address
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-300">
+                  Email Address
+                </label>
+                {isGmail && (
+                  <span className="text-[10px] font-bold text-blue-600 dark:text-sky-400 flex items-center gap-1">
+                    <Check className="w-3 h-3" />
+                    Google Gmail
+                  </span>
+                )}
+              </div>
               <div className="relative">
                 <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3 pointer-events-none" />
                 <input
@@ -303,7 +342,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@domain.com"
+                  placeholder="yourname@gmail.com"
                   className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-xl pl-10 pr-3 py-2.5 text-sm text-black dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 />
               </div>
@@ -317,7 +356,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 <button
                   type="button"
                   onClick={() => { setMode('forgot'); setFeedback(null); }}
-                  className="text-[11px] text-sky-600 dark:text-sky-400 hover:underline cursor-pointer"
+                  className="text-[11px] text-blue-600 dark:text-sky-400 hover:underline cursor-pointer"
                 >
                   Forgot password?
                 </button>
@@ -336,6 +375,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-3 text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer"
+                  tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -382,9 +422,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-300 mb-1">
-                Email Address
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-300">
+                  Real Email Address
+                </label>
+                {isGmail && (
+                  <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <Check className="w-3 h-3" />
+                    Google Gmail Verified
+                  </span>
+                )}
+              </div>
               <div className="relative">
                 <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3 pointer-events-none" />
                 <input
@@ -392,16 +440,32 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@domain.com"
+                  placeholder="yourname@gmail.com"
                   className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-xl pl-10 pr-3 py-2.5 text-sm text-black dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 />
               </div>
+              {email && emailCheck && !emailCheck.valid && (
+                <p className="text-[11px] text-rose-500 font-medium mt-1">
+                  {emailCheck.error}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-300 mb-1">
-                Password (min. 6 characters)
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-semibold text-neutral-800 dark:text-neutral-300">
+                  Strong Password
+                </label>
+                {password && (
+                  <span className={`text-[10px] font-bold ${
+                    passStrength.label === 'Strong' ? 'text-emerald-600 dark:text-emerald-400' :
+                    passStrength.label === 'Good' ? 'text-blue-600 dark:text-sky-400' :
+                    passStrength.label === 'Fair' ? 'text-amber-600 dark:text-amber-400' : 'text-rose-500'
+                  }`}>
+                    {passStrength.label} Password
+                  </span>
+                )}
+              </div>
               <div className="relative">
                 <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3 pointer-events-none" />
                 <input
@@ -409,17 +473,41 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Min. 8 chars with letters & numbers"
                   className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-xl pl-10 pr-10 py-2.5 text-sm text-black dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-3 text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer"
+                  tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+
+              {/* Password strength visual meter */}
+              {password && (
+                <div className="mt-1.5 space-y-1">
+                  <div className="grid grid-cols-4 gap-1 h-1.5 rounded-full overflow-hidden bg-neutral-200 dark:bg-neutral-800">
+                    <div className={`h-full ${passStrength.score >= 1 ? 'bg-rose-500' : ''}`} />
+                    <div className={`h-full ${passStrength.score >= 2 ? 'bg-amber-500' : ''}`} />
+                    <div className={`h-full ${passStrength.score >= 3 ? 'bg-blue-500' : ''}`} />
+                    <div className={`h-full ${passStrength.score >= 4 ? 'bg-emerald-500' : ''}`} />
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] text-neutral-500">
+                    <span className={passStrength.hasMinLength ? 'text-emerald-600 font-bold' : ''}>
+                      • 8+ chars
+                    </span>
+                    <span className={passStrength.hasLetter ? 'text-emerald-600 font-bold' : ''}>
+                      • Letters
+                    </span>
+                    <span className={passStrength.hasNumber ? 'text-emerald-600 font-bold' : ''}>
+                      • Numbers
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div>
@@ -451,7 +539,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 </>
               ) : (
                 <>
-                  <span>Create Free Vault Account</span>
+                  <span>Create Vault Account (No Wait)</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -467,7 +555,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 Reset Password
               </h3>
               <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                Enter your account email. We will send a secure password recovery link to your inbox.
+                Enter your account email. We will prepare your secure password recovery.
               </p>
             </div>
 
@@ -482,7 +570,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@domain.com"
+                  placeholder="yourname@gmail.com"
                   className="w-full bg-neutral-50 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-xl pl-10 pr-3 py-2.5 text-sm text-black dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 />
               </div>
@@ -493,7 +581,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               disabled={loading}
               className="w-full py-3 px-4 rounded-xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : 'Send Recovery Email'}
+              {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : 'Send Recovery Instructions'}
             </button>
 
             <div className="text-center">
@@ -527,7 +615,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         {/* Security & Zero SSN Guarantee */}
         <div className="pt-2 flex items-center justify-center gap-2 text-[11px] text-neutral-500">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-          <span>Zero SSN Required • 256-Bit Encrypted Sovereign Storage</span>
+          <span>Zero SSN Required • 256-Bit Sovereign Encryption</span>
         </div>
 
       </div>
